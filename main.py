@@ -1,4 +1,4 @@
-from ui.login import login_window
+from ui.login import win
 
 if __name__ == '__main__':
-    login_window()
+    win()

@@ -5,15 +5,9 @@ from tkinter.ttk import *
 import json
 import os
 
-# root
-root_folder = os.getcwd()#os.path.dirname(os.getcwd())
-
-
-# main
-
 
 # class
-class Logon:
+class Window:
 
     def __init__(self, master):
 
@@ -26,14 +20,15 @@ class Logon:
         self.e_style = "Arial 12"
 
         # json path
-        self.json_path = root_folder + "\\ui\\config.json"
+        self.json_path = os.path.join(os.getcwd(), 'ui', 'config.json')
         # vars
         self.temp_username = ''
         self.check_box_var = IntVar()
 
         # img path
+        self.logo_img_path = os.path.join(os.getcwd(), 'assets', 'user.png')
 
-        self.logo_img = PhotoImage(file=root_folder + "\\assets\\user.png")
+        self.logo_img = PhotoImage(file=self.logo_img_path)
 
         # check if file exists
         if os.path.exists(self.json_path) and not os.stat(self.json_path).st_size == 0:
@@ -51,7 +46,7 @@ class Logon:
                 # save username into file
 
                 with open(self.json_path, "w") as config:
-                    user_config = {"USERNAME": self.username_entry.get(), "REMEMBER": str(self.check_box_var.get())}
+                    user_config = {"USERNAME": self.username_entry.get()}
                     json.dump(user_config, config)
 
             # clear file if checkbox is not ticked
@@ -102,20 +97,21 @@ class Logon:
         self.login_button.pack(pady=(20, 0))
 
 
-def login_window():
-    
-    window = Tk()
+def win():
+    # window
+    w = Tk()
 
     # window dimensions
     width = 300
     height = 400
-    window.geometry(window_pos(width, height))
-    window.resizable(False, False)
+    # geo
+    w.geometry(window_pos(width, height))
+    w.resizable(False, False)
 
     # title
-    window.title("Login")
+    w.title("Login")
 
-    run = Logon(window)
+    win = Window(w)
     # icon
-    window.iconbitmap(root_folder + "\\assets\\ico.ico")
-    window.mainloop()
+    w.iconbitmap(os.path.join(os.getcwd(), 'assets', 'ico.ico'))
+    w.mainloop()
