@@ -1,19 +1,28 @@
 # imports
+import tkinter.messagebox
 from tkinter import *
 from funcs.window_position import window_pos
 from tkinter.ttk import *
 import json
 import os
+from funcs.connector import db_conn
+import mysql.connector as mysql
 
 
-# class
-class Window:
+# window class
+class Window(tkinter.Tk):
 
-    def __init__(self, master):
+    def __init__(self):
+        super().__init__()
 
-        # dummy frame
-        frame = Frame()
-        frame.pack()
+        # title
+        self.title("Login")
+
+        # size and window pos
+        self.geometry(window_pos(300, 400))
+
+        # resize
+        self.resizable(False, False)
 
         # font
         self.l_style = "Arial 15"
@@ -39,8 +48,66 @@ class Window:
                 self.temp_username = data['USERNAME']
                 self.check_box_var.set(1)
 
+        # logo using canvas
+        self.logo = Canvas(self, width=105, height=105)
+        self.logo.pack()
+        self.logo.create_image(5, 5, anchor=NW, image=self.logo_img, )
+
+        # username
+        # label
+        self.username_label = Label(self, font=self.l_style, text="Username").pack(pady=(20, 0))
+
+        # entry
+        self.username_entry = Entry(self, width=25, font=self.e_style)
+        self.username_entry.pack()
+
+        # password
+        # label
+        self.password_label = Label(self, font=self.l_style, text="Password").pack(pady=(10, 0))
+        # entry
+        self.password_entry = Entry(self, font=self.e_style, width=25, show="*")
+        self.password_entry.pack()
+
+        # if remember username is selected the username is filled in
+        if self.check_box_var.get():
+            self.username_entry.insert(0, self.temp_username)
+            self.password_entry.focus_force()
+        else:
+            self.username_entry.focus_force()
+
+            # print(check_box_var.get())
+
+        # check_box box
+        self.check_box = Checkbutton(self, text="Remember username?", variable=self.check_box_var)
+
+        # check box is un selected if remember username was not selected
+        if not self.check_box_var:
+            self.check_box.selection_clear()
+
+        self.check_box.pack(pady=(20, 0))
+
+        # button
+        self.login_button = Button(self, text="Login", command=self.clicked, width=20)
+        self.login_button.pack(pady=(20, 0))
+
+        # icon
+        self.iconbitmap(os.path.join(os.getcwd(), 'assets', 'ico.ico'))
         # button function
-        def clicked():
+
+    def clicked(self):
+
+        # vars to pass
+        user_name = self.username_entry.get()
+        pass_word = self.password_entry.get()
+
+        # db object
+        db = db_conn(user_name, pass_word)
+        # login
+        # check to see if db object is a mysql object and not an error string
+        if type(db) == mysql.connection.MySQLConnection:
+            # show success info box
+            tkinter.messagebox.showinfo(title="Success", message="Logged in user @" + user_name)
+
             # save username if checkbox is ticked
             if self.username_entry.get() and self.check_box_var.get():
                 # save username into file
@@ -54,64 +121,15 @@ class Window:
                 with open(self.json_path, "w") as config:
                     config.truncate(0)
 
-        # logo
-        self.logo = Canvas(width=105, height=105)
-        self.logo.pack()
-        self.logo.create_image(5, 5, anchor=NW, image=self.logo_img, )
+            # close the window
+            self.destroy()
 
-        # username
-        # label
-        self.username_label = Label(master, font=self.l_style, text="Username").pack(pady=(20, 0))
-
-        # entry
-        self.username_entry = Entry(master, width=25, font=self.e_style)
-        self.username_entry.pack()
-
-        # password
-        # label
-        self.password_label = Label(master, font=self.l_style, text="Password").pack(pady=(10, 0))
-        # entry
-        self.password_entry = Entry(master, font=self.e_style, width=25, show="*")
-        self.password_entry.pack()
-
-        # if remember username is selected the username is filled in
-        if self.check_box_var.get():
-            self.username_entry.insert(0, self.temp_username)
-            self.password_entry.focus_force()
+            # else
         else:
-            self.username_entry.focus_force()
-
-            # print(check_box_var.get())
-
-        # check_box box
-        self.check_box = Checkbutton(master, text="Remember username?", variable=self.check_box_var)
-
-        # check box is un selected if remember username was not selected
-        if not self.check_box_var:
-            self.check_box.selection_clear()
-
-        self.check_box.pack(pady=(20, 0))
-
-        # button
-        self.login_button = Button(master, text="Login", command=clicked, width=20)
-        self.login_button.pack(pady=(20, 0))
+            tkinter.messagebox.showerror(title="Error", message=db)
 
 
-def win():
-    # window
-    w = Tk()
-
-    # window dimensions
-    width = 300
-    height = 400
-    # geo
-    w.geometry(window_pos(width, height))
-    w.resizable(False, False)
-
-    # title
-    w.title("Login")
-
-    win = Window(w)
-    # icon
-    w.iconbitmap(os.path.join(os.getcwd(), 'assets', 'ico.ico'))
-    w.mainloop()
+# run
+def log():
+    win = Window()
+    win.mainloop()

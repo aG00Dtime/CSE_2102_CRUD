@@ -1,4 +1,4 @@
-from ui.login import win
 
+from ui.login import  log
 if __name__ == '__main__':
-    win()
+    log()

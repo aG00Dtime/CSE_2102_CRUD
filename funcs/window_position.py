@@ -1,6 +1,7 @@
 from tkinter import *
 
 
+
 def window_pos(w, h):
     # dummy window to get screen size
     dummy = Tk()
