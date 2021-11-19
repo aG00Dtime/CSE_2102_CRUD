@@ -6,18 +6,10 @@ import json
 import os
 
 # root
-root_folder = os.path.dirname(os.getcwd())
+root_folder = os.getcwd()#os.path.dirname(os.getcwd())
+
+
 # main
-window = Tk()
-
-# window dimensions
-width = 300
-height = 400
-window.geometry(window_pos(width, height))
-window.resizable(False, False)
-
-# title
-window.title("Login")
 
 
 # class
@@ -110,7 +102,20 @@ class Logon:
         self.login_button.pack(pady=(20, 0))
 
 
-run = Logon(window)
-# icon
-window.iconbitmap(root_folder + "\\assets\\ico.ico")
-window.mainloop()
+def login_window():
+    
+    window = Tk()
+
+    # window dimensions
+    width = 300
+    height = 400
+    window.geometry(window_pos(width, height))
+    window.resizable(False, False)
+
+    # title
+    window.title("Login")
+
+    run = Logon(window)
+    # icon
+    window.iconbitmap(root_folder + "\\assets\\ico.ico")
+    window.mainloop()
