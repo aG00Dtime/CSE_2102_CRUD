@@ -102,7 +102,7 @@ class LoginWindow(tk.Tk):
     def clicked(self):
 
         # vars to pass
-        access_priv=None
+        access_priv = None
         user_name, pass_word = self.username_entry.get(), self.password_entry.get()
         db = funcs.connector.db_conn()
         cur = db.cursor()
@@ -112,14 +112,7 @@ class LoginWindow(tk.Tk):
 
         if found:
             # notify of successful login
-            print(f"Loggied in as {user_name}")
-
-            if "admin" in found:
-                access_priv='admin'
-
-
-            if "user" in found:
-                access_priv='user'
+            print(f"Logged in as {user_name}")
 
             # save username if checkbox is ticked
             if self.username_entry.get() and self.check_box_var.get():
@@ -130,7 +123,7 @@ class LoginWindow(tk.Tk):
 
             self.destroy()
             # open next window
-            main_menu = MainMenu(access_priv)
+            main_menu = MainMenu(access_priv,user_name)
 
         # if login fails
         else:

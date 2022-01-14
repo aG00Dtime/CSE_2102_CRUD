@@ -11,12 +11,16 @@ root = os.path.abspath(os.curdir)
 
 # customer window
 class CustomerManager(Tk):
-    def __init__(self, access_level):
+    def __init__(self, access_level, username):
         super(CustomerManager, self).__init__()
 
         self.title("Customers Manager")
         self.geometry(window_pos(1050, 600))
         self.resizable(False, False)
+
+        # test ###
+        print(username)
+
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
@@ -33,7 +37,9 @@ class CustomerManager(Tk):
         self.tabs.add(self.tab1, text="Query Customer Database")
         self.tabs.add(self.tab2, text="Add Customer record")
         self.tabs.add(self.tab3, text="Update Customer record")
-        self.tabs.add(self.tab4, text="Delete Customer record")
+
+        if access_level.lower() == 'admin':
+            self.tabs.add(self.tab4, text="Delete Customer record")
 
         self.tabs.grid()
 
@@ -332,9 +338,9 @@ class CustomerManager(Tk):
                     number_check[index] = True
 
             if not all(number_check):
-                error_list.append("Invalid Phone Number")
+                error_list.append("Invalid Phone Number,Number must be 7 digits")
         else:
-            error_list.append("Invalid Phone Number")
+            error_list.append("Invalid Phone Number,Number must be 7 digits")
 
         # get list of errors to display
 
@@ -346,7 +352,6 @@ class CustomerManager(Tk):
         if error_list:
             # make list into string
             error_str = '\n'.join(error_list)
-
             messagebox.showerror(message=error_str, title="ERROR!", parent=self.tab2)
 
         else:
@@ -354,23 +359,21 @@ class CustomerManager(Tk):
             plan_str = plan.split(" ")
             plan_id = plan_str[0]
 
-            # sql here #####################################################
+            # sql here ###############################################################################################
+
             db = db_conn()
             cur = db.cursor()
 
             cur.execute(f''' 
-            
             update customers set first_name = '{first}',last_name='{last}',telephone='{phone}',address='{address1}',
             plan_id='{plan_id}',email='{email}' where customer_id='{customer_id}'
-
-
-
             ''')
+
             # commit and close db
             db.commit()
             db.close()
 
-            ##################################################################
+            ##########################################################################################################
 
             # clear entry boxes after record inserted
             self.first_name_entry_tab_3.delete(0, END)

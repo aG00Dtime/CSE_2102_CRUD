@@ -10,10 +10,12 @@ root = os.path.abspath(os.curdir)
 
 
 class MainMenu(Tk):
-    def __init__(self, access_level):
+    def __init__(self, access_level, username):
         super(MainMenu, self, ).__init__()
         # pass access level
         self.access = access_level
+        # pass user
+        self.user = username
 
         self.title("Menu")
         self.resizable(False, False)
@@ -27,7 +29,7 @@ class MainMenu(Tk):
         self.customer_button = Button(self, text="Manage Inventory", command=self.inventory).pack(pady=(20, 0))
 
     def customer(self):
-        customer_manager = CustomerManager(self.access)
+        customer_manager = CustomerManager(self.access, self.username)
 
     def employee(self):
         employee_manager = EmployeeManager(self.access)
