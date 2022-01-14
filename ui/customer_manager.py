@@ -36,27 +36,30 @@ class CustomerManager(Tk):
         self.font_style_medium = "arial 18 bold"
         self.font_style_small = "arial 14"
 
+
+        # TAB 1 #######################################################################################################
+
         # name labels
-        self.f_name_label = Label(self.tab1, text='First Name', font=self.font_style_small).grid(row=0, column=0,
-                                                                                                 sticky="W",
-                                                                                                 padx=(18, 0),
-                                                                                                 pady=(50, 10))
+        self.f_name_label_tab_1 = Label(self.tab1, text='First Name', font=self.font_style_small).grid(row=0, column=0,
+                                                                                                       sticky="W",
+                                                                                                       padx=(18, 0),
+                                                                                                       pady=(50, 10))
         # entry boxes
-        self.f_name_entry = Entry(self.tab1, width=50)
-        self.f_name_entry.grid(row=0, column=1, columnspan=2, sticky="W", pady=(50, 10), padx=0)
+        self.f_name_entry_tab_1 = Entry(self.tab1, width=50)
+        self.f_name_entry_tab_1.grid(row=0, column=1, columnspan=2, sticky="W", pady=(50, 10), padx=0)
         # name labels
-        self.l_name_label = Label(self.tab1, text='Last Name', font=self.font_style_small).grid(row=1, column=0,
-                                                                                                sticky="W",
-                                                                                                padx=(18, 0))
+        self.l_name_label_tab_1 = Label(self.tab1, text='Last Name', font=self.font_style_small).grid(row=1, column=0,
+                                                                                                      sticky="W",
+                                                                                                      padx=(18, 0))
         # entry boxes
-        self.l_name_entry = Entry(self.tab1, width=50)
-        self.l_name_entry.grid(row=1, column=1, sticky="NW")
+        self.l_name_entry_tab_1 = Entry(self.tab1, width=50)
+        self.l_name_entry_tab_1.grid(row=1, column=1, sticky="NW")
 
         # button
-        self.query_button = Button(self.tab1, width=50, text="Search", command=self.db_query).grid(row=2, column=1,
-                                                                                                   columnspan=4,
-                                                                                                   sticky="NW",
-                                                                                                   pady=(10, 50))
+        self.query_button_tab_1 = Button(self.tab1, width=50, text="Search", command=self.db_query).grid(row=2, column=1,
+                                                                                                         columnspan=4,
+                                                                                                         sticky="NW",
+                                                                                                         pady=(10, 50))
         #
         self.tree = Treeview(self.tab1, height=15, show='headings')
 
@@ -99,117 +102,117 @@ class CustomerManager(Tk):
         # width of entry boxes
         self.entry_width = 50
         # name entry
-        self.first_name_label = Label(self.tab2, text="First Name").grid(row=0, column=0, pady=(50, 10), padx=(300, 20),
-                                                                         sticky=NW)
-        self.first_name_entry = Entry(self.tab2, width=self.entry_width)
-        self.first_name_entry.grid(row=0, column=1, pady=(50, 10))
+        self.first_name_label_tab_2 = Label(self.tab2, text="First Name").grid(row=0, column=0, pady=(50, 10), padx=(300, 20),
+                                                                               sticky=NW)
+        self.first_name_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
+        self.first_name_entry_tab_2.grid(row=0, column=1, pady=(50, 10))
 
-        self.last_name_label = Label(self.tab2, text="Last Name").grid(row=1, column=0, pady=10, padx=(300, 20),
-                                                                       sticky=NW)
-        self.last_name_entry = Entry(self.tab2, width=self.entry_width)
-        self.last_name_entry.grid(row=1, column=1, pady=10)
+        self.last_name_label_tab_2 = Label(self.tab2, text="Last Name").grid(row=1, column=0, pady=10, padx=(300, 20),
+                                                                             sticky=NW)
+        self.last_name_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
+        self.last_name_entry_tab_2.grid(row=1, column=1, pady=10)
 
         # phone
-        self.phone_label = Label(self.tab2, text="Phone").grid(row=2, column=0, pady=10, padx=(300, 20), sticky=NW)
-        self.phone_entry = Entry(self.tab2, width=self.entry_width)
-        self.phone_entry.grid(row=2, column=1, pady=10)
+        self.phone_label_tab_2 = Label(self.tab2, text="Phone").grid(row=2, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.phone_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
+        self.phone_entry_tab_2.grid(row=2, column=1, pady=10)
 
         # email
-        self.email_label = Label(self.tab2, text="Email").grid(row=3, column=0, pady=10, padx=(300, 20), sticky=NW)
-        self.email_entry = Entry(self.tab2, width=self.entry_width)
-        self.email_entry.grid(row=3, column=1, pady=10)
+        self.email_label_tab_2 = Label(self.tab2, text="Email").grid(row=3, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.email_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
+        self.email_entry_tab_2.grid(row=3, column=1, pady=10)
 
         # address1
-        self.address1_label = Label(self.tab2, text="Address").grid(row=4, column=0, pady=10, padx=(300, 20), sticky=NW)
-        self.address1_entry = Entry(self.tab2, width=self.entry_width)
-        self.address1_entry.grid(row=4, column=1, pady=10)
+        self.address1_label_tab_2 = Label(self.tab2, text="Address").grid(row=4, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.address1_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
+        self.address1_entry_tab_2.grid(row=4, column=1, pady=10)
 
         # drop down selection box
-        self.customer_plan_label = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
-                                                                             sticky=NW)
+        self.customer_plan_label_tab_2 = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
+                                                                                   sticky=NW)
 
-        self.customer_plan = Combobox(self.tab2, width=36, state='readonly')
+        self.customer_plan_tab_2 = Combobox(self.tab2, width=36, state='readonly')
 
         # query from db instead to values
-        self.customer_plan['values'] = self.db_get_plans()
+        self.customer_plan_tab_2['values'] = self.db_get_plans()
 
-        self.customer_plan.grid(row=7, column=1, pady=10)
+        self.customer_plan_tab_2.grid(row=7, column=1, pady=10)
 
         # submit button
-        self.submit = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=8, column=1)
+        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=8, column=1)
 
         # TAB 3 #######################################################################################################
 
-        self.enter_id_label = Label(self.tab3, text="CUSTOMER ID").grid(row=0, column=0,
-                                                                        pady=(50, 0), padx=(300, 20),
-                                                                        sticky=NW)
+        self.enter_id_label_tab_3 = Label(self.tab3, text="CUSTOMER ID").grid(row=0, column=0,
+                                                                              pady=(50, 0), padx=(300, 20),
+                                                                              sticky=NW)
         # customer id
-        self.id_entry = Entry(self.tab3, width=50)
-        self.id_entry.grid(row=0, column=1, pady=(50, 0))
+        self.id_entry_tab_3 = Entry(self.tab3, width=50)
+        self.id_entry_tab_3.grid(row=0, column=1, pady=(50, 0))
 
         # button
-        self.query_button_customer = Button(self.tab3, width=20, text="Search", command=self.update_query).grid(row=1,
-                                                                                                                column=1)
+        self.query_button_customer_tab_3 = Button(self.tab3, width=20, text="Search", command=self.update_query).grid(row=1,
+                                                                                                                      column=1)
 
         # entry boxes to insert values
-        self.first_name_label_2 = Label(self.tab3, text="First Name").grid(row=2, column=0, pady=(50, 10),
-                                                                           padx=(300, 20),
-                                                                           sticky=NW)
+        self.first_name_label_tab_3 = Label(self.tab3, text="First Name").grid(row=2, column=0, pady=(50, 10),
+                                                                               padx=(300, 20),
+                                                                               sticky=NW)
         # name entry
-        self.first_name_entry_2 = Entry(self.tab3, width=self.entry_width)
-        self.first_name_entry_2.grid(row=2, column=1, pady=(50, 10))
+        self.first_name_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
+        self.first_name_entry_tab_3.grid(row=2, column=1, pady=(50, 10))
 
-        self.last_name_label_2 = Label(self.tab3, text="Last Name").grid(row=3, column=0, pady=10, padx=(300, 20),
-                                                                         sticky=NW)
-        self.last_name_entry_2 = Entry(self.tab3, width=self.entry_width)
-        self.last_name_entry_2.grid(row=3, column=1, pady=10)
+        self.last_name_label_tab_3 = Label(self.tab3, text="Last Name").grid(row=3, column=0, pady=10, padx=(300, 20),
+                                                                             sticky=NW)
+        self.last_name_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
+        self.last_name_entry_tab_3.grid(row=3, column=1, pady=10)
 
         # phone
-        self.phone_label_2 = Label(self.tab3, text="Phone").grid(row=4, column=0, pady=10, padx=(300, 20), sticky=NW)
-        self.phone_entry_2 = Entry(self.tab3, width=self.entry_width)
-        self.phone_entry_2.grid(row=4, column=1, pady=10)
+        self.phone_label_tab_3 = Label(self.tab3, text="Phone").grid(row=4, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.phone_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
+        self.phone_entry_tab_3.grid(row=4, column=1, pady=10)
 
         # email
-        self.email_label_2 = Label(self.tab3, text="Email").grid(row=5, column=0, pady=10, padx=(300, 20), sticky=NW)
-        self.email_entry_2 = Entry(self.tab3, width=self.entry_width)
-        self.email_entry_2.grid(row=5, column=1, pady=10)
+        self.email_label_tab_3 = Label(self.tab3, text="Email").grid(row=5, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.email_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
+        self.email_entry_tab_3.grid(row=5, column=1, pady=10)
 
         # address1
-        self.address1_label_2 = Label(self.tab3, text="Address").grid(row=6, column=0, pady=10, padx=(300, 20),
-                                                                      sticky=NW)
-        self.address1_entry_2 = Entry(self.tab3, width=self.entry_width)
-        self.address1_entry_2.grid(row=6, column=1, pady=10)
+        self.address1_label_tab_3 = Label(self.tab3, text="Address").grid(row=6, column=0, pady=10, padx=(300, 20),
+                                                                          sticky=NW)
+        self.address1_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
+        self.address1_entry_tab_3.grid(row=6, column=1, pady=10)
 
         # drop down selection box
-        self.customer_plan_label_2 = Label(self.tab3, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
-                                                                               sticky=NW)
+        self.customer_plan_label_tab_3 = Label(self.tab3, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
+                                                                                   sticky=NW)
 
-        self.customer_plan_2 = Combobox(self.tab3, width=36, state='readonly')
+        self.customer_plan_tab_3 = Combobox(self.tab3, width=36, state='readonly')
 
         # query from db instead to values
-        self.customer_plan_2['values'] = self.db_get_plans()
+        self.customer_plan_tab_3['values'] = self.db_get_plans()
 
-        self.customer_plan_2.grid(row=7, column=1, pady=10)
+        self.customer_plan_tab_3.grid(row=7, column=1, pady=10)
 
         # submit button
-        self.submit_2 = Button(self.tab3, width=20, text="Update", command=self.update_record).grid(row=8, column=1)
+        self.submit_button_tab_3 = Button(self.tab3, width=20, text="Update", command=self.update_record).grid(row=8, column=1)
 
         # TAB 4 #######################################################################################################
-        self.enter_id_label_2 = Label(self.tab4, text="CUSTOMER ID").grid(row=0, column=0,
-                                                                          pady=(50, 0), padx=(300, 20),
-                                                                          sticky=NW)
+        self.enter_id_label_tab_4 = Label(self.tab4, text="CUSTOMER ID").grid(row=0, column=0,
+                                                                              pady=(50, 0), padx=(300, 20),
+                                                                              sticky=NW)
         # customer id
-        self.id_entry_2 = Entry(self.tab4, width=50)
-        self.id_entry_2.grid(row=0, column=1, pady=(50, 0))
+        self.id_entry_tab_4 = Entry(self.tab4, width=50)
+        self.id_entry_tab_4.grid(row=0, column=1, pady=(50, 0))
 
         # button
-        self.delete_button = Button(self.tab4, width=20, text="Search", command=self.delete_record).grid(row=1,
-                                                                                                         column=1)
+        self.delete_button_tab_4 = Button(self.tab4, width=20, text="Search", command=self.delete_record).grid(row=1,
+                                                                                                               column=1)
 
     # delete a record
     def delete_record(self):
 
-        customer_id = self.id_entry_2.get()
+        customer_id = self.id_entry_tab_4.get()
 
         db = db_conn()
         cur = db.cursor()
@@ -238,7 +241,7 @@ class CustomerManager(Tk):
 
     def update_query(self):
         # get customer id to update
-        customer_id = self.id_entry.get()
+        customer_id = self.id_entry_tab_3.get()
 
         db = db_conn()
         cur = db.cursor()
@@ -263,44 +266,44 @@ class CustomerManager(Tk):
         plan_id = int(record[5]) - 1
 
         # clear entry boxes before inserting new data
-        self.first_name_entry_2.delete(0, END)
-        self.last_name_entry_2.delete(0, END)
-        self.email_entry_2.delete(0, END)
-        self.address1_entry_2.delete(0, END)
-        self.phone_entry_2.delete(0, END)
-        self.customer_plan_2.set(' ')
+        self.first_name_entry_tab_3.delete(0, END)
+        self.last_name_entry_tab_3.delete(0, END)
+        self.email_entry_tab_3.delete(0, END)
+        self.address1_entry_tab_3.delete(0, END)
+        self.phone_entry_tab_3.delete(0, END)
+        self.customer_plan_tab_3.set(' ')
 
         # insert
-        self.first_name_entry_2.insert(0, first_name)
-        self.last_name_entry_2.insert(0, last_name)
-        self.phone_entry_2.insert(0, tele)
-        self.email_entry_2.insert(0, email)
-        self.address1_entry_2.insert(0, address)
-        self.customer_plan_2.current(plan_id)
+        self.first_name_entry_tab_3.insert(0, first_name)
+        self.last_name_entry_tab_3.insert(0, last_name)
+        self.phone_entry_tab_3.insert(0, tele)
+        self.email_entry_tab_3.insert(0, email)
+        self.address1_entry_tab_3.insert(0, address)
+        self.customer_plan_tab_3.current(plan_id)
 
     def update_record(self):
-        customer_id = self.id_entry.get()
+        customer_id = self.id_entry_tab_3.get()
         error_list = []
 
         # name checking
-        first = self.first_name_entry_2.get().lower().capitalize()
-        last = self.last_name_entry_2.get().lower().capitalize()
+        first = self.first_name_entry_tab_3.get().lower().capitalize()
+        last = self.last_name_entry_tab_3.get().lower().capitalize()
 
         if " " in first or " " in last or not first or not last:
             error_list.append("Names cannot be empty or contain spaces")
 
         # check plan
-        plan = self.customer_plan_2.get()
+        plan = self.customer_plan_tab_3.get()
         if not plan:
             error_list.append("Plan must be selected")
 
         # check email
-        email = self.email_entry_2.get()
+        email = self.email_entry_tab_3.get()
         if not email:
             error_list.append("Email Address missing")
 
         # check phone
-        phone = self.phone_entry_2.get()
+        phone = self.phone_entry_tab_3.get()
         number_list = '1234567890'
         number_check = [False for number in phone]
 
@@ -317,7 +320,7 @@ class CustomerManager(Tk):
 
         # get list of errors to display
 
-        address1 = self.address1_entry_2.get().lower().capitalize()
+        address1 = self.address1_entry_tab_3.get().lower().capitalize()
 
         if not address1:
             error_list.append("Ensure Address is filled in")
@@ -352,12 +355,12 @@ class CustomerManager(Tk):
             ##################################################################
 
             # clear entry boxes after record inserted
-            self.first_name_entry_2.delete(0, END)
-            self.last_name_entry_2.delete(0, END)
-            self.email_entry_2.delete(0, END)
-            self.address1_entry_2.delete(0, END)
-            self.phone_entry_2.delete(0, END)
-            self.customer_plan_2.set(' ')
+            self.first_name_entry_tab_3.delete(0, END)
+            self.last_name_entry_tab_3.delete(0, END)
+            self.email_entry_tab_3.delete(0, END)
+            self.address1_entry_tab_3.delete(0, END)
+            self.phone_entry_tab_3.delete(0, END)
+            self.customer_plan_tab_3.set(' ')
 
             # show success message
             messagebox.showinfo(title="Success", message="Done.", parent=self.tab3)
@@ -386,8 +389,8 @@ class CustomerManager(Tk):
         # clear out tree view
         self.tree.delete(*self.tree.get_children())
 
-        f_name = self.f_name_entry.get().lower().capitalize()
-        l_name = self.l_name_entry.get().lower().capitalize()
+        f_name = self.f_name_entry_tab_1.get().lower().capitalize()
+        l_name = self.l_name_entry_tab_1.get().lower().capitalize()
 
         # sql
         #######################################################################################################
@@ -411,24 +414,24 @@ class CustomerManager(Tk):
         error_list = []
 
         # name checking
-        first = self.first_name_entry.get().lower().capitalize()
-        last = self.last_name_entry.get().lower().capitalize()
+        first = self.first_name_entry_tab_2.get().lower().capitalize()
+        last = self.last_name_entry_tab_2.get().lower().capitalize()
 
         if " " in first or " " in last or not first or not last:
             error_list.append("Names cannot be empty or contain spaces")
 
         # check plan
-        plan = self.customer_plan.get()
+        plan = self.customer_plan_tab_2.get()
         if not plan:
             error_list.append("Plan must be selected")
 
         # check email
-        email = self.email_entry.get()
+        email = self.email_entry_tab_2.get()
         if not email:
             error_list.append("Email Address missing")
 
         # check phone
-        phone = self.phone_entry.get()
+        phone = self.phone_entry_tab_2.get()
         number_list = '1234567890'
         number_check = [False for number in phone]
 
@@ -445,7 +448,7 @@ class CustomerManager(Tk):
 
         # get list of errors to display
 
-        address1 = self.address1_entry.get().lower().capitalize()
+        address1 = self.address1_entry_tab_2.get().lower().capitalize()
 
         if not address1:
             error_list.append("Ensure Address is filled in")
@@ -476,12 +479,12 @@ class CustomerManager(Tk):
             ##################################################################
 
             # clear entry boxes after record inserted
-            self.first_name_entry.delete(0, END)
-            self.last_name_entry.delete(0, END)
-            self.email_entry.delete(0, END)
-            self.address1_entry.delete(0, END)
-            self.phone_entry.delete(0, END)
-            self.customer_plan.set(' ')
+            self.first_name_entry_tab_2.delete(0, END)
+            self.last_name_entry_tab_2.delete(0, END)
+            self.email_entry_tab_2.delete(0, END)
+            self.address1_entry_tab_2.delete(0, END)
+            self.phone_entry_tab_2.delete(0, END)
+            self.customer_plan_tab_2.set(' ')
 
             # show success message
             messagebox.showinfo(title="Success", message="Done.", parent=self.tab2)

@@ -6,7 +6,6 @@ from tkinter import *
 from tkinter.ttk import *
 
 import funcs.connector
-import funcs.notify
 import ui.set_host_window
 from funcs.window_position import window_pos
 from ui.main_menu import MainMenu
