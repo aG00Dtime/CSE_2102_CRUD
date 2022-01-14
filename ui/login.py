@@ -1,19 +1,23 @@
-# imports
-import tkinter.messagebox
-from tkinter import *
-from funcs.window_position import window_pos
-from tkinter.ttk import *
 import json
 import os
-from funcs.connector import db_conn
-import mysql.connector as mysql
+import tkinter as tk
+import tkinter.messagebox as mb
+from tkinter import *
+from tkinter.ttk import *
+
+import funcs.connector
+import funcs.notify
+import ui.set_host_window
+from funcs.window_position import window_pos
+from ui.main_menu import MainMenu
+
+root = os.path.abspath(os.curdir)
 
 
-# window class
-class Window(tkinter.Tk):
+class LoginWindow(tk.Tk):
 
     def __init__(self):
-        super().__init__()
+        super(LoginWindow, self).__init__()
 
         # title
         self.title("Login")
@@ -29,15 +33,15 @@ class Window(tkinter.Tk):
         self.e_style = "Arial 12"
 
         # json path
-        self.json_path = os.path.join(os.getcwd(), 'ui', 'config.json')
+        self.json_path = os.path.join(root, 'last_user.json')
         # vars
         self.temp_username = ''
-        self.check_box_var = IntVar()
+        self.check_box_var = tk.IntVar()
 
         # img path
-        self.logo_img_path = os.path.join(os.getcwd(), 'assets', 'user.png')
+        self.logo_img_path = os.path.join(root, 'assets', 'user.png')
 
-        self.logo_img = PhotoImage(file=self.logo_img_path)
+        self.logo_img = tk.PhotoImage(file=self.logo_img_path)
 
         # check if file exists
         if os.path.exists(self.json_path) and not os.stat(self.json_path).st_size == 0:
@@ -49,9 +53,9 @@ class Window(tkinter.Tk):
                 self.check_box_var.set(1)
 
         # logo using canvas
-        self.logo = Canvas(self, width=105, height=105)
+        self.logo = tk.Canvas(self, width=105, height=105)
         self.logo.pack()
-        self.logo.create_image(5, 5, anchor=NW, image=self.logo_img, )
+        self.logo.create_image(5, 5, anchor=tk.NW, image=self.logo_img, )
 
         # username
         # label
@@ -91,45 +95,46 @@ class Window(tkinter.Tk):
         self.login_button.pack(pady=(20, 0))
 
         # icon
-        self.iconbitmap(os.path.join(os.getcwd(), 'assets', 'ico.ico'))
+        self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
+
         # button function
+        self.host_label = Button(self, text="configure host", command=ui.set_host_window.HostWindow).pack(pady=(20, 0))
 
     def clicked(self):
 
         # vars to pass
-        user_name = self.username_entry.get()
-        pass_word = self.password_entry.get()
+        access_priv=None
+        user_name, pass_word = self.username_entry.get(), self.password_entry.get()
+        db = funcs.connector.db_conn()
+        cur = db.cursor()
+        # testing -------------------add encryption
+        cur.execute(f'''SELECT access_level FROM USERS WHERE username = '{user_name}' and password = '{pass_word}' ''')
+        found = cur.fetchone()
 
-        # db object
-        db = db_conn(user_name, pass_word)
-        # login
-        # check to see if db object is a mysql object and not an error string
-        if type(db) == mysql.connection.MySQLConnection:
-            # show success info box
-            tkinter.messagebox.showinfo(title="Success", message="Logged in user @" + user_name)
+        if found:
+            # notify of successful login
+            print(f"Loggied in as {user_name}")
+
+            if "admin" in found:
+                access_priv='admin'
+
+
+            if "user" in found:
+                access_priv='user'
 
             # save username if checkbox is ticked
             if self.username_entry.get() and self.check_box_var.get():
                 # save username into file
-
                 with open(self.json_path, "w") as config:
                     user_config = {"USERNAME": self.username_entry.get()}
                     json.dump(user_config, config)
 
-            # clear file if checkbox is not ticked
-            else:
-                with open(self.json_path, "w") as config:
-                    config.truncate(0)
-
-            # close the window
             self.destroy()
+            # open next window
+            main_menu = MainMenu(access_priv)
 
-            # else
+        # if login fails
         else:
-            tkinter.messagebox.showerror(title="Error", message=db)
+            mb.showerror(title="Error", message="Username or Password Error")
 
-
-# run
-def log():
-    win = Window()
-    win.mainloop()
+        # ---------------------------------------

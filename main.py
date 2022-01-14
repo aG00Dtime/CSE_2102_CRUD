@@ -1,4 +1,7 @@
+from ui.login import LoginWindow
 
-from ui.login import  log
+
+# open login window
 if __name__ == '__main__':
-    log()
+    run = LoginWindow()
+    run.mainloop()

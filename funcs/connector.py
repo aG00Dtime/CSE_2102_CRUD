@@ -1,13 +1,38 @@
 import mysql.connector as mysql
 from mysql.connector import errorcode
+import json
+import os
+from cryptography.fernet import Fernet
+
+# paths
+root = os.path.abspath(os.curdir)
+json_path = os.path.join(root,'host_config.json')
 
 
-def db_conn(user_name, pass_word):
+def db_conn():
+
     try:
-        db = mysql.connect(host='localhost',
-                           username=user_name,
-                           password=pass_word,
-                           database='employees'
+        # read file
+        if os.path.exists(json_path) and not os.stat(json_path).st_size == 0:
+
+            # open file if it exists and isn't empty
+            with open(json_path, "r") as file:
+
+                # load file
+                data = json.load(file)
+                # key would be saved to a file somewhere secure
+                # decrypt key
+                with open(os.path.join(root, 'k.key'), 'rb') as key:
+                    key = key.read()
+
+                f = Fernet(key)
+                pwe = (data['PASSWORD'].encode())
+                pwd = f.decrypt(pwe)
+
+        db = mysql.connect(host=data["HOST"],
+                           username=data["USERNAME"],
+                           password=str(pwd).strip("b").strip("'").strip("'"),
+                           database=data["DATABASE"]
 
                            )
 
@@ -26,8 +51,5 @@ def db_conn(user_name, pass_word):
             # return any other errors
             return err
     else:
-        # print if success and return db obj
-        print("Success connected user : " + user_name)
-        # print(type(db))
         # return db connection object
         return db

@@ -1,8 +1,9 @@
 from tkinter import *
 
 
-
 def window_pos(w, h):
+    """Takes width and height of a window as arguments and returns a tkinter geometry string that centers the window
+    on the screen , usage eg. geometry(window_pos(500,500))"""
     # dummy window to get screen size
     dummy = Tk()
 
