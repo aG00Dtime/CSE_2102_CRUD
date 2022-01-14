@@ -1,8 +1,9 @@
-import mysql.connector as mysql
-from mysql.connector import errorcode
 import json
 import os
+
+import mysql.connector as mysql
 from cryptography.fernet import Fernet
+from mysql.connector import errorcode
 
 # paths
 root = os.path.abspath(os.curdir)

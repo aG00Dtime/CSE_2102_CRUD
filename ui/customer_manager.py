@@ -1,3 +1,4 @@
+import os
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import *
@@ -5,7 +6,10 @@ from tkinter.ttk import *
 from funcs.connector import db_conn
 from funcs.window_position import window_pos
 
+root = os.path.abspath(os.curdir)
 
+
+# customer window
 class CustomerManager(Tk):
     def __init__(self, access_level):
         super(CustomerManager, self).__init__()
@@ -13,6 +17,8 @@ class CustomerManager(Tk):
         self.title("Customers Manager")
         self.geometry(window_pos(1050, 600))
         self.resizable(False, False)
+        # icon
+        self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         # create notebook to hold tabs
         self.tabs = Notebook(self)
@@ -36,27 +42,28 @@ class CustomerManager(Tk):
         self.font_style_medium = "arial 18 bold"
         self.font_style_small = "arial 14"
 
-
-        # TAB 1 #######################################################################################################
+        # TAB 1 ######################################################################################################
 
         # name labels
         self.f_name_label_tab_1 = Label(self.tab1, text='First Name', font=self.font_style_small).grid(row=0, column=0,
-                                                                                                       sticky="W",
-                                                                                                       padx=(18, 0),
+                                                                                                       sticky="E",
+                                                                                                       padx=(18, 20),
                                                                                                        pady=(50, 10))
         # entry boxes
         self.f_name_entry_tab_1 = Entry(self.tab1, width=50)
         self.f_name_entry_tab_1.grid(row=0, column=1, columnspan=2, sticky="W", pady=(50, 10), padx=0)
+
         # name labels
         self.l_name_label_tab_1 = Label(self.tab1, text='Last Name', font=self.font_style_small).grid(row=1, column=0,
-                                                                                                      sticky="W",
-                                                                                                      padx=(18, 0))
+                                                                                                      sticky="E",
+                                                                                                      padx=(18, 20))
         # entry boxes
         self.l_name_entry_tab_1 = Entry(self.tab1, width=50)
         self.l_name_entry_tab_1.grid(row=1, column=1, sticky="NW")
 
         # button
-        self.query_button_tab_1 = Button(self.tab1, width=50, text="Search", command=self.db_query).grid(row=2, column=1,
+        self.query_button_tab_1 = Button(self.tab1, width=50, text="Search", command=self.db_query).grid(row=2,
+                                                                                                         column=1,
                                                                                                          columnspan=4,
                                                                                                          sticky="NW",
                                                                                                          pady=(10, 50))
@@ -102,7 +109,8 @@ class CustomerManager(Tk):
         # width of entry boxes
         self.entry_width = 50
         # name entry
-        self.first_name_label_tab_2 = Label(self.tab2, text="First Name").grid(row=0, column=0, pady=(50, 10), padx=(300, 20),
+        self.first_name_label_tab_2 = Label(self.tab2, text="First Name").grid(row=0, column=0, pady=(50, 10),
+                                                                               padx=(300, 20),
                                                                                sticky=NW)
         self.first_name_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
         self.first_name_entry_tab_2.grid(row=0, column=1, pady=(50, 10))
@@ -113,22 +121,26 @@ class CustomerManager(Tk):
         self.last_name_entry_tab_2.grid(row=1, column=1, pady=10)
 
         # phone
-        self.phone_label_tab_2 = Label(self.tab2, text="Phone").grid(row=2, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.phone_label_tab_2 = Label(self.tab2, text="Phone").grid(row=2, column=0, pady=10, padx=(300, 20),
+                                                                     sticky=NW)
         self.phone_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
         self.phone_entry_tab_2.grid(row=2, column=1, pady=10)
 
         # email
-        self.email_label_tab_2 = Label(self.tab2, text="Email").grid(row=3, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.email_label_tab_2 = Label(self.tab2, text="Email").grid(row=3, column=0, pady=10, padx=(300, 20),
+                                                                     sticky=NW)
         self.email_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
         self.email_entry_tab_2.grid(row=3, column=1, pady=10)
 
         # address1
-        self.address1_label_tab_2 = Label(self.tab2, text="Address").grid(row=4, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.address1_label_tab_2 = Label(self.tab2, text="Address").grid(row=4, column=0, pady=10, padx=(300, 20),
+                                                                          sticky=NW)
         self.address1_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
         self.address1_entry_tab_2.grid(row=4, column=1, pady=10)
 
         # drop down selection box
-        self.customer_plan_label_tab_2 = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
+        self.customer_plan_label_tab_2 = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10,
+                                                                                   padx=(300, 20),
                                                                                    sticky=NW)
 
         self.customer_plan_tab_2 = Combobox(self.tab2, width=36, state='readonly')
@@ -139,7 +151,8 @@ class CustomerManager(Tk):
         self.customer_plan_tab_2.grid(row=7, column=1, pady=10)
 
         # submit button
-        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=8, column=1)
+        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=8,
+                                                                                                                column=1)
 
         # TAB 3 #######################################################################################################
 
@@ -151,8 +164,9 @@ class CustomerManager(Tk):
         self.id_entry_tab_3.grid(row=0, column=1, pady=(50, 0))
 
         # button
-        self.query_button_customer_tab_3 = Button(self.tab3, width=20, text="Search", command=self.update_query).grid(row=1,
-                                                                                                                      column=1)
+        self.query_button_customer_tab_3 = Button(self.tab3, width=20, text="Search", command=self.update_query).grid(
+            row=1,
+            column=1)
 
         # entry boxes to insert values
         self.first_name_label_tab_3 = Label(self.tab3, text="First Name").grid(row=2, column=0, pady=(50, 10),
@@ -168,12 +182,14 @@ class CustomerManager(Tk):
         self.last_name_entry_tab_3.grid(row=3, column=1, pady=10)
 
         # phone
-        self.phone_label_tab_3 = Label(self.tab3, text="Phone").grid(row=4, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.phone_label_tab_3 = Label(self.tab3, text="Phone").grid(row=4, column=0, pady=10, padx=(300, 20),
+                                                                     sticky=NW)
         self.phone_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
         self.phone_entry_tab_3.grid(row=4, column=1, pady=10)
 
         # email
-        self.email_label_tab_3 = Label(self.tab3, text="Email").grid(row=5, column=0, pady=10, padx=(300, 20), sticky=NW)
+        self.email_label_tab_3 = Label(self.tab3, text="Email").grid(row=5, column=0, pady=10, padx=(300, 20),
+                                                                     sticky=NW)
         self.email_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
         self.email_entry_tab_3.grid(row=5, column=1, pady=10)
 
@@ -184,7 +200,8 @@ class CustomerManager(Tk):
         self.address1_entry_tab_3.grid(row=6, column=1, pady=10)
 
         # drop down selection box
-        self.customer_plan_label_tab_3 = Label(self.tab3, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
+        self.customer_plan_label_tab_3 = Label(self.tab3, text="Select Plan").grid(row=7, column=0, pady=10,
+                                                                                   padx=(300, 20),
                                                                                    sticky=NW)
 
         self.customer_plan_tab_3 = Combobox(self.tab3, width=36, state='readonly')
@@ -195,7 +212,8 @@ class CustomerManager(Tk):
         self.customer_plan_tab_3.grid(row=7, column=1, pady=10)
 
         # submit button
-        self.submit_button_tab_3 = Button(self.tab3, width=20, text="Update", command=self.update_record).grid(row=8, column=1)
+        self.submit_button_tab_3 = Button(self.tab3, width=20, text="Update", command=self.update_record).grid(row=8,
+                                                                                                               column=1)
 
         # TAB 4 #######################################################################################################
         self.enter_id_label_tab_4 = Label(self.tab4, text="CUSTOMER ID").grid(row=0, column=0,

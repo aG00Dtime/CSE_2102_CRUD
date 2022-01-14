@@ -4,6 +4,9 @@ from tkinter.ttk import *
 from funcs.window_position import window_pos
 from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
+import os
+
+root = os.path.abspath(os.curdir)
 
 
 class MainMenu(Tk):
@@ -15,6 +18,8 @@ class MainMenu(Tk):
         self.title("Menu")
         self.resizable(False, False)
         self.geometry(window_pos(400, 400))
+        # icon
+        self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         # buttons
         self.customer_button = Button(self, text="Manage Customers", command=self.customer).pack(pady=(40, 0))

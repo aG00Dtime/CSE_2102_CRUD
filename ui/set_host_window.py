@@ -1,14 +1,15 @@
+import json
+import os
 import tkinter
-from tkinter import *
 import tkinter.messagebox
+from tkinter import *
+from tkinter.ttk import *
 
 import mysql.connector as mysql
+from cryptography.fernet import Fernet
+
 import funcs.connector
 from funcs.window_position import window_pos
-from tkinter.ttk import *
-import os
-import json
-from cryptography.fernet import Fernet
 
 root = os.path.abspath(os.curdir)
 
