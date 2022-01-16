@@ -102,17 +102,19 @@ class LoginWindow(tk.Tk):
     def clicked(self):
 
         # vars to pass
-        access_priv = None
+
         user_name, pass_word = self.username_entry.get(), self.password_entry.get()
         db = funcs.connector.db_conn()
         cur = db.cursor()
         # testing -------------------add encryption
-        cur.execute(f'''SELECT access_level FROM USERS WHERE username = '{user_name}' and password = '{pass_word}' ''')
+        cur.execute(f'''SELECT access_level FROM USER WHERE username = '{user_name}' and password = '{pass_word}' ''')
         found = cur.fetchone()
 
         if found:
             # notify of successful login
             print(f"Logged in as {user_name}")
+
+            access_level = found
 
             # save username if checkbox is ticked
             if self.username_entry.get() and self.check_box_var.get():
@@ -123,7 +125,7 @@ class LoginWindow(tk.Tk):
 
             self.destroy()
             # open next window
-            main_menu = MainMenu(access_priv,user_name)
+            main_menu = MainMenu(access_level,user_name)
 
         # if login fails
         else:

@@ -15,11 +15,12 @@ class CustomerManager(Tk):
         super(CustomerManager, self).__init__()
 
         self.title("Customers Manager")
-        self.geometry(window_pos(1050, 600))
+        self.geometry(window_pos(1100, 600))
         self.resizable(False, False)
 
+        self.user = username
+
         # test ###
-        print(username)
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
@@ -37,8 +38,7 @@ class CustomerManager(Tk):
         self.tabs.add(self.tab1, text="Query Customer Database")
         self.tabs.add(self.tab2, text="Add Customer record")
         self.tabs.add(self.tab3, text="Update Customer record")
-
-        if access_level.lower() == 'admin':
+        if 'admin' in access_level:
             self.tabs.add(self.tab4, text="Delete Customer record")
 
         self.tabs.grid()
@@ -86,7 +86,7 @@ class CustomerManager(Tk):
         self.tree.configure(yscrollcommand=self.scrollbar.set)
 
         # column headings
-        self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7')
+        self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8')
 
         self.tree.heading("1", text="ID")
 
@@ -102,14 +102,17 @@ class CustomerManager(Tk):
 
         self.tree.heading("7", text="Plan")
 
+        self.tree.heading("8", text="Device S/N")
+
         # align column data
-        for i in range(8):
+        for i in range(9):
             self.tree.column(str(i), anchor="center")
 
         # column width
         self.tree.column('1', width=40)
-        self.tree.column('2', width=80)
-        self.tree.column('3', width=80)
+        self.tree.column('2', width=70)
+        self.tree.column('3', width=70)
+        self.tree.column('4', width=70)
 
         # TAB 2 #######################################################################################################
         # width of entry boxes
@@ -148,16 +151,26 @@ class CustomerManager(Tk):
         self.customer_plan_label_tab_2 = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10,
                                                                                    padx=(300, 20),
                                                                                    sticky=NW)
+        # device box
+        self.customer_device_label_tab_2 = Label(self.tab2, text="Assign Device").grid(row=8, column=0, pady=10,
+                                                                                       padx=(300, 20),
+                                                                                       sticky=NW)
+
+        self.customer_device_tab_2 = Combobox(self.tab2, width=36, state='readonly')
 
         self.customer_plan_tab_2 = Combobox(self.tab2, width=36, state='readonly')
 
         # query from db instead to values
-        self.customer_plan_tab_2['values'] = self.db_get_plans()
+        self.customer_plan_tab_2['values'] = self.db_get_table()
 
+        self.customer_device_tab_2['values'] = self.db_get_devices()
+
+        ##################
         self.customer_plan_tab_2.grid(row=7, column=1, pady=10)
+        self.customer_device_tab_2.grid(row=8, column=1, pady=10)
 
         # submit button
-        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=8,
+        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=10,
                                                                                                                 column=1)
 
         # TAB 3 #######################################################################################################
@@ -212,13 +225,22 @@ class CustomerManager(Tk):
 
         self.customer_plan_tab_3 = Combobox(self.tab3, width=36, state='readonly')
 
+        # device box
+        self.customer_device_label_tab_3 = Label(self.tab3, text="Assign Device").grid(row=8, column=0, pady=10,
+                                                                                       padx=(300, 20),
+                                                                                       sticky=NW)
+
+        self.customer_device_tab_3 = Combobox(self.tab3, width=36, state='readonly')
+
         # query from db instead to values
-        self.customer_plan_tab_3['values'] = self.db_get_plans()
+        self.customer_plan_tab_3['values'] = self.db_get_table()
+        self.customer_device_tab_3['values'] = self.db_get_devices()
 
         self.customer_plan_tab_3.grid(row=7, column=1, pady=10)
+        self.customer_device_tab_3.grid(row=8, column=1, pady=10)
 
         # submit button
-        self.submit_button_tab_3 = Button(self.tab3, width=20, text="Update", command=self.update_record).grid(row=8,
+        self.submit_button_tab_3 = Button(self.tab3, width=20, text="Update", command=self.update_record).grid(row=9,
                                                                                                                column=1)
 
         # TAB 4 #######################################################################################################
@@ -242,14 +264,15 @@ class CustomerManager(Tk):
         cur = db.cursor()
         # check if record exists in the database
 
-        cur.execute(f'''select first_name,last_name from customers where customer_id = '{customer_id}' ''')
+        cur.execute(
+            f'''select customer_first_name,customer_last_name from customer where customer_id = '{customer_id}' ''')
         record_exist = cur.fetchone()
 
         if record_exist:
             confirm = messagebox.askokcancel(title="DELETE RECORD?", message=record_exist, parent=self.tab4)
 
             if confirm:
-                cur.execute(f'''delete from customers where customer_id='{customer_id}' ''')
+                cur.execute(f'''delete from customer where customer_id='{customer_id}' ''')
                 db.commit()
 
                 messagebox.showinfo(message="Record Deleted", parent=self.tab4)
@@ -271,8 +294,7 @@ class CustomerManager(Tk):
         cur = db.cursor()
         # fetch the record
         cur.execute(
-            f'''select first_name,last_name,telephone,email,address,plan_id from customers where customer_id= 
-            '{customer_id}' ''')
+            f'''select * from customer_update where customer_id = '{customer_id}' ''')
 
         record = cur.fetchone()
 
@@ -281,13 +303,14 @@ class CustomerManager(Tk):
             return
 
         # get the details
-        first_name = record[0]
-        last_name = record[1]
-        tele = record[2]
-        email = record[3]
-        address = record[4]
+        first_name = record[1]
+        last_name = record[2]
+        tele = record[3]
+        email = record[4]
+        address = record[5]
         # -1 to set the right id
-        plan_id = int(record[5]) - 1
+        plan_id = int(record[6]) - 1
+        device = int(record[7]) - 1
 
         # clear entry boxes before inserting new data
         self.first_name_entry_tab_3.delete(0, END)
@@ -296,6 +319,7 @@ class CustomerManager(Tk):
         self.address1_entry_tab_3.delete(0, END)
         self.phone_entry_tab_3.delete(0, END)
         self.customer_plan_tab_3.set(' ')
+        self.customer_device_tab_3.set(' ')
 
         # insert
         self.first_name_entry_tab_3.insert(0, first_name)
@@ -304,6 +328,7 @@ class CustomerManager(Tk):
         self.email_entry_tab_3.insert(0, email)
         self.address1_entry_tab_3.insert(0, address)
         self.customer_plan_tab_3.current(plan_id)
+        self.customer_device_tab_3.current(device)
 
     def update_record(self):
         customer_id = self.id_entry_tab_3.get()
@@ -318,6 +343,8 @@ class CustomerManager(Tk):
 
         # check plan
         plan = self.customer_plan_tab_3.get()
+        device = self.customer_device_tab_3.get()
+
         if not plan:
             error_list.append("Plan must be selected")
 
@@ -355,18 +382,21 @@ class CustomerManager(Tk):
             messagebox.showerror(message=error_str, title="ERROR!", parent=self.tab2)
 
         else:
-
+            device_str = device.split(" ")
+            device_id = device_str[0]
             plan_str = plan.split(" ")
             plan_id = plan_str[0]
 
-            # sql here ###############################################################################################
+            # SQL HERE ###############################################################################################
 
             db = db_conn()
             cur = db.cursor()
 
             cur.execute(f''' 
-            update customers set first_name = '{first}',last_name='{last}',telephone='{phone}',address='{address1}',
-            plan_id='{plan_id}',email='{email}' where customer_id='{customer_id}'
+            update customer set customer_first_name = '{first}',customer_last_name='{last}',customer_telephone='{phone}'
+            ,customer_address='{address1}',
+            customer_plan='{plan_id}',customer_email='{email}',customer_device={device_id}, modified_by = '{self.user}' 
+            where customer_id='{customer_id}'
             ''')
 
             # commit and close db
@@ -382,16 +412,32 @@ class CustomerManager(Tk):
             self.address1_entry_tab_3.delete(0, END)
             self.phone_entry_tab_3.delete(0, END)
             self.customer_plan_tab_3.set(' ')
+            self.customer_device_tab_3.set(' ')
 
             # show success message
             messagebox.showinfo(title="Success", message="Done.", parent=self.tab3)
 
     @staticmethod
-    def db_get_plans():
+    def db_get_devices():
         # connect to db and fetch plans available
         db = db_conn()
         cur = db.cursor()
-        cur.execute(''' SELECT id,plan_name,plan_speed FROM plan ''')
+        cur.execute(f''' SELECT device_id,device_type,device_serial_number FROM devices ''')
+
+        devices = cur.fetchall()
+
+        db.close()
+
+        # return devices pulled from db
+        return devices
+
+    @staticmethod
+    def db_get_table():
+        # connect to db and fetch plans available
+        db = db_conn()
+        cur = db.cursor()
+
+        cur.execute(''' SELECT plan_id , plan_name  FROM plan ''')
 
         plans = cur.fetchall()
 
@@ -416,16 +462,20 @@ class CustomerManager(Tk):
         # sql
         #######################################################################################################
 
-        cur.execute(f'''  select * from customer_details where first_name ='{f_name}' and last_name ='{l_name}' ''')
+        cur.execute(
+            f'''  select * from customer_details where customer_first_name ='{f_name}' and customer_last_name ='{l_name}' ''')
 
         #######################################################################################################
 
         rows = cur.fetchall()
+        print(rows)
 
         # add data the tree
         for column in rows:
             self.tree.insert("", END,
-                             values=(column[0], column[1], column[2], column[3], column[4], column[5], column[6]))
+                             values=(
+                                 column[0], column[1], column[2], column[3], column[4], column[5], column[6],
+                                 column[7]))
 
         db.close()
 
@@ -441,8 +491,15 @@ class CustomerManager(Tk):
         if " " in first or " " in last or not first or not last:
             error_list.append("Names cannot be empty or contain spaces")
 
-        # check plan
+        # check
         plan = self.customer_plan_tab_2.get()
+        device = self.customer_device_tab_2.get()
+
+        # check device
+        if not device:
+            error_list.append("Device must be assigned")
+
+        # check plan
         if not plan:
             error_list.append("Plan must be selected")
 
@@ -481,6 +538,8 @@ class CustomerManager(Tk):
             messagebox.showerror(message=error_str, title="ERROR!", parent=self.tab2)
 
         else:
+            device_str = device.split(" ")
+            device_id = device_str[0]
 
             plan_str = plan.split(" ")
             plan_id = plan_str[0]
@@ -489,10 +548,11 @@ class CustomerManager(Tk):
             db = db_conn()
             cur = db.cursor()
 
-            cur.execute(f'''
-            insert into customers (first_name,last_name,telephone,email,address,plan_id) 
-                           values ('{first}','{last}','{phone}','{email}','{address1}','{plan_id}')
+            cur.execute(f''' insert into customer (customer_first_name,customer_last_name,customer_telephone,
+            customer_email,customer_address ,customer_plan,modified_by,customer_device) values ('{first}','{last}','{phone}',
+            '{email}','{address1}','{plan_id}','{self.user}',{device_id}) 
                 ''')
+
             # commit and close db
             db.commit()
             db.close()

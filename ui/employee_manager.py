@@ -128,12 +128,12 @@ class EmployeeManager(Tk):
         self.Employee_plan_label = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10, padx=(300, 20),
                                                                              sticky=NW)
 
-        self.Employee_plan = Combobox(self.tab2, width=36, state='readonly')
+        self.employee_department = Combobox(self.tab2, width=36, state='readonly')
 
         # query from db instead to values
-        self.Employee_plan['values'] = self.db_get_plans()
+        self.employee_department['values'] = self.db_get_plans()
 
-        self.Employee_plan.grid(row=7, column=1, pady=10)
+        self.employee_department.grid(row=7, column=1, pady=10)
 
         # submit button
         self.submit = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=8, column=1)
@@ -415,7 +415,7 @@ class EmployeeManager(Tk):
             error_list.append("Names cannot be empty or contain spaces")
 
         # check plan
-        plan = self.Employee_plan.get()
+        plan = self.employee_department.get()
         if not plan:
             error_list.append("Plan must be selected")
 
@@ -478,7 +478,7 @@ class EmployeeManager(Tk):
             self.email_entry.delete(0, END)
             self.address1_entry.delete(0, END)
             self.phone_entry.delete(0, END)
-            self.Employee_plan.set(' ')
+            self.employee_department.set(' ')
 
             # show success message
             messagebox.showinfo(title="Success", message="Done.", parent=self.tab2)
