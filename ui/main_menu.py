@@ -25,15 +25,13 @@ class MainMenu(Tk):
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         # buttons
-        self.customer_button = Button(self, text="Manage Customers", command=self.customer).pack(pady=(40, 0))
-        self.employee_button = Button(self, text="Manage Employees", command=self.employee).pack(pady=(20, 0))
-
-        self.customer_button = Button(self, text="Manage Inventory").pack(pady=(20, 0))
-
-        self.add_users_button = Button(self,text="Add new users").pack()
+        self.customer_button = Button(self, text="Manage Customers", command=self.customer, width=40).pack(pady=(40, 0))
+        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(20, 0))
+        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(20, 0))
+        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(20, 0))
 
     def customer(self):
-        customer_manager = CustomerManager(self.access, self.user)
+        open_customer_manager = CustomerManager(self.access, self.user)
 
     def employee(self):
-        employee_manager = EmployeeManager(self.access)
+        open_employee_manager = EmployeeManager(self.access, self.user)
