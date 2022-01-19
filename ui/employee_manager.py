@@ -494,8 +494,7 @@ class EmployeeManager(Tk):
             messagebox.showerror(message=error_str, title="ERROR!", parent=self.tab2)
 
         else:
-            device_str = device.split(" ")
-            device_id = device_str[0]
+
 
             plan_str = plan.split(" ")
             plan_id = plan_str[0]
