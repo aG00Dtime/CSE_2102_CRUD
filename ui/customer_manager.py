@@ -15,12 +15,13 @@ class CustomerManager(Tk):
         super(CustomerManager, self).__init__()
 
         self.title("Customers Manager")
+
         self.geometry(window_pos(1024, 630))
+
         self.resizable(False, False)
 
         self.user = username
-
-        # test ###
+        self.access_level=access_level
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
@@ -58,12 +59,13 @@ class CustomerManager(Tk):
 
         # first name label
         self.f_name_label_tab_1 = Label(self.tab1, text='First Name', font=self.font_style_small).grid(row=0, column=0,
-                                                                                                       padx=(180,2), pady=(40,0),
+                                                                                                       padx=(180, 2),
+                                                                                                       pady=(40, 0),
                                                                                                        sticky=E)
 
         # first name entry boxes
         self.f_name_entry_tab_1 = Entry(self.tab1, width=50)
-        self.f_name_entry_tab_1.grid(row=0, column=1, sticky=W,pady=(40,0))
+        self.f_name_entry_tab_1.grid(row=0, column=1, sticky=W, pady=(40, 0))
 
         # last name label
         self.l_name_label_tab_1 = Label(self.tab1, text='Last Name', font=self.font_style_small).grid(row=1, column=0,
@@ -72,12 +74,13 @@ class CustomerManager(Tk):
 
         # first name entry boxes
         self.l_name_entry_tab_1 = Entry(self.tab1, width=50)
-        self.l_name_entry_tab_1.grid(row=1, column=1,sticky=W)
+        self.l_name_entry_tab_1.grid(row=1, column=1, sticky=W)
 
         # button
         self.query_button_tab_1 = Button(self.tab1, width=50, text="Search", command=self.db_query).grid(row=2,
                                                                                                          column=1,
-                                                                                                         pady=20,sticky=W)
+                                                                                                         pady=20,
+                                                                                                         sticky=W)
         #
         self.tree = Treeview(self.tab1, height=15, show='headings')
 
@@ -91,7 +94,10 @@ class CustomerManager(Tk):
         self.tree.configure(yscrollcommand=self.scrollbar.set)
 
         # column headings
-        self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7')
+        if "admin" in access_level:
+            self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8')
+        else:
+            self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7')
 
         self.tree.heading("1", text="ID")
 
@@ -107,18 +113,35 @@ class CustomerManager(Tk):
 
         self.tree.heading("7", text="Plan")
 
+        if "admin" in access_level:
+            self.tree.heading("8", text="Modified By")
+
         # align column data
-        for i in range(8):
-            self.tree.column(str(i), anchor="center")
+        if "admin" not in access_level:
+            # column width
+            self.tree.column('1', width=30)
+            self.tree.column('2', width=80)
+            self.tree.column('3', width=80)
+            self.tree.column('4', width=80)
 
-        # column width
-        self.tree.column('1', width=30)
-        self.tree.column('2', width=80)
-        self.tree.column('3', width=80)
-        self.tree.column('4', width=80)
+            for i in range(8):
+                self.tree.column(str(i), anchor="center")
 
-        for i in range(5, 8):
-            self.tree.column(str(i), width=240)
+            for i in range(5, 8):
+                self.tree.column(str(i), width=240)
+        else:
+            # column width
+            self.tree.column('1', width=30)
+            self.tree.column('2', width=80)
+            self.tree.column('3', width=80)
+            self.tree.column('4', width=80)
+            self.tree.column('5', width=250)
+            self.tree.column('6', width=250)
+            self.tree.column('7', width=110)
+            self.tree.column('8', width=100)
+
+            for i in range(9):
+                self.tree.column(str(i), anchor="center")
 
         # TAB 2 #######################################################################################################
         # width of entry boxes
@@ -255,14 +278,14 @@ class CustomerManager(Tk):
         # check if record exists in the database
 
         cur.execute(
-            f'''select customer_first_name,customer_last_name from customer where customer_id = '{customer_id}' ''')
+            f'''select customer_first_name,customer_last_name from customers where customer_id = '{customer_id}' ''')
         record_exist = cur.fetchone()
 
         if record_exist:
             confirm = messagebox.askokcancel(title="DELETE RECORD?", message=record_exist, parent=self.tab4)
 
             if confirm:
-                cur.execute(f'''delete from customer where customer_id='{customer_id}' ''')
+                cur.execute(f'''delete from customers where customer_id='{customer_id}' ''')
                 db.commit()
 
                 messagebox.showinfo(message="Record Deleted", parent=self.tab4)
@@ -383,7 +406,7 @@ class CustomerManager(Tk):
             cur = db.cursor()
 
             cur.execute(f''' 
-            update customer set customer_first_name = '{first}',customer_last_name='{last}',customer_telephone='{phone}'
+            update customers set customer_first_name = '{first}',customer_last_name='{last}',customer_telephone='{phone}'
             ,customer_address='{address1}',
             customer_plan='{plan_id}',customer_email='{email}', modified_by = '{self.user}' 
             where customer_id='{customer_id}'
@@ -412,7 +435,7 @@ class CustomerManager(Tk):
         db = db_conn()
         cur = db.cursor()
 
-        cur.execute(''' SELECT plan_id , plan_name ,plan_burst_speed FROM plan ''')
+        cur.execute(''' SELECT plan_id , plan_name ,plan_burst_speed FROM plans ''')
 
         plans = cur.fetchall()
 
@@ -449,9 +472,14 @@ class CustomerManager(Tk):
 
         # add data the tree
         for column in rows:
-            self.tree.insert("", END,
-                             values=(
-                                 column[0], column[1], column[2], column[3], column[4], column[5], column[6]))
+            if "admin" not in self.access_level:
+                self.tree.insert("", END,
+                                 values=(
+                                     column[0], column[1], column[2], column[3], column[4], column[5], column[6]))
+            else:
+                self.tree.insert("", END,
+                                 values=(
+                                     column[0], column[1], column[2], column[3], column[4], column[5], column[6],column[7]))
 
         db.close()
 
@@ -520,7 +548,7 @@ class CustomerManager(Tk):
             db = db_conn()
             cur = db.cursor()
 
-            cur.execute(f''' insert into customer (customer_first_name,customer_last_name,customer_telephone,
+            cur.execute(f''' insert into customers (customer_first_name,customer_last_name,customer_telephone,
             customer_email,customer_address ,customer_plan,modified_by) values ('{first}','{last}','{phone}',
             '{email}','{address1}','{plan_id}','{self.user}') 
                 ''')

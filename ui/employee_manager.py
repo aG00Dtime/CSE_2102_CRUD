@@ -15,11 +15,12 @@ class EmployeeManager(Tk):
         super(EmployeeManager, self).__init__()
 
         self.title("Employee Manager")
-        self.window_title = Label(self, text="Employee Manager",font="ARIAL 16 bold").grid(pady=(20, 20))
+        self.window_title = Label(self, text="Employee Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
         self.geometry(window_pos(1024, 600))
         self.resizable(False, False)
 
         self.user = username
+        self.access_level = access_level
 
         # test ###
 
@@ -89,7 +90,10 @@ class EmployeeManager(Tk):
         self.tree.configure(yscrollcommand=self.scrollbar.set)
 
         # column headings
-        self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8')
+        if 'admin' not in access_level:
+            self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8')
+        else:
+            self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8', '9')
 
         self.tree.heading("1", text="ID")
 
@@ -107,19 +111,36 @@ class EmployeeManager(Tk):
 
         self.tree.heading("8", text="Designation")
 
+        if "admin" in access_level:
+            self.tree.heading("9", text="Modified By")
+
         # align column data
-        for i in range(9):
-            self.tree.column(str(i), anchor="center")
+        if "admin" not in access_level:
+            # column width
+            self.tree.column('1', width=30)
+            self.tree.column('2', width=80)
+            self.tree.column('3', width=80)
+            self.tree.column('4', width=80)
 
-        # column width
+            for i in range(8):
+                self.tree.column(str(i), anchor="center")
 
-        self.tree.column('1', width=30)
-        self.tree.column('2', width=80)
-        self.tree.column('3', width=80)
-        self.tree.column('4', width=90)
+            for i in range(5, 8):
+                self.tree.column(str(i), width=240)
+        else:
+            # column width
+            self.tree.column('1', width=30)
+            self.tree.column('2', width=80)
+            self.tree.column('3', width=80)
+            self.tree.column('4', width=80)
+            self.tree.column('5', width=200)
+            self.tree.column('6', width=200)
+            self.tree.column('7', width=110)
+            self.tree.column('8', width=100)
+            self.tree.column('9', width=100)
 
-        for i in range(5, 9):
-            self.tree.column(str(i), width=175)
+            for i in range(9):
+                self.tree.column(str(i), anchor="center")
 
         # TAB 2 #######################################################################################################
         # width of entry boxes
@@ -186,7 +207,7 @@ class EmployeeManager(Tk):
         # button
         self.query_button_employee_tab_3 = Button(self.tab3, width=20, text="Search", command=self.update_query).grid(
             row=1,
-            column=1,pady=10)
+            column=1, pady=10)
 
         # entry boxes to insert values
         self.first_name_label_tab_3 = Label(self.tab3, text="First Name").grid(row=2, column=0, pady=(50, 10),
@@ -247,7 +268,8 @@ class EmployeeManager(Tk):
 
         # button
         self.delete_button_tab_4 = Button(self.tab4, width=20, text="Search", command=self.delete_record).grid(row=1,
-                                                                                                               column=1,pady=10)
+                                                                                                               column=1,
+                                                                                                               pady=10)
 
     # delete a record
     def delete_record(self):
@@ -263,7 +285,7 @@ class EmployeeManager(Tk):
             select 
             employee_first_name,
             employee_last_name 
-            from employee 
+            from employees 
             where employee_id = '{employee_id}' 
             ''')
         record_exist = cur.fetchone()
@@ -395,7 +417,7 @@ class EmployeeManager(Tk):
             cur = db.cursor()
 
             cur.execute(f''' 
-            update employee set 
+            update employees set 
             employee_first_name = '{first}',
             employee_last_name='{last}',
             employee_telephone='{phone}',
@@ -456,11 +478,18 @@ class EmployeeManager(Tk):
         rows = cur.fetchall()
 
         # add data the tree
-        for column in rows:
-            self.tree.insert("", END,
-                             values=(
-                                 column[0], column[1], column[2], column[3], column[4], column[5], column[6],
-                                 column[7]))
+        if 'admin' not in self.access_level:
+            for column in rows:
+                self.tree.insert("", END,
+                                 values=(
+                                     column[0], column[1], column[2], column[3], column[4], column[5], column[6],
+                                     column[7]))
+        else:
+            for column in rows:
+                self.tree.insert("", END,
+                                 values=(
+                                     column[0], column[1], column[2], column[3], column[4], column[5], column[6],
+                                     column[7],column[8]))
 
         db.close()
 
@@ -530,7 +559,7 @@ class EmployeeManager(Tk):
 
             cur.execute(f''' 
             
-            insert into employee (
+            insert into employees (
             employee_first_name,
             employee_last_name,
             employee_telephone,

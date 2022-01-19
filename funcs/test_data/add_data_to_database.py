@@ -12,7 +12,7 @@ db = con.connect(
 )
 
 # add
-with open("customer.json", "r") as file:
+with open("data.json", "r") as file:
     data = json.load(file)
     cur = db.cursor()
 
@@ -30,7 +30,7 @@ with open("customer.json", "r") as file:
 
         cur.execute(f'''
         
-        INSERT INTO CUSTOMER (
+        INSERT INTO CUSTOMERS (
         CUSTOMER_FIRST_NAME,
         CUSTOMER_LAST_NAME,
         CUSTOMER_EMAIL,
@@ -44,7 +44,7 @@ with open("customer.json", "r") as file:
 
         cur.execute(f'''
 
-                INSERT INTO EMPLOYEE (
+                INSERT INTO EMPLOYEES (
                 EMPLOYEE_FIRST_NAME,
                 EMPLOYEE_LAST_NAME,
                 EMPLOYEE_EMAIL,
