@@ -111,8 +111,8 @@ class LoginWindow(tk.Tk):
         found = cur.fetchone()
 
         if found:
-            # notify of successful login
-            print(f"Logged in as {user_name}")
+            #
+            # print(f"Logged in as {user_name}")
 
             access_level = found
 

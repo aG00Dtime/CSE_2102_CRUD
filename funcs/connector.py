@@ -31,6 +31,7 @@ def db_conn():
                 pwd = f.decrypt(pwe)
 
         db = mysql.connect(host=data["HOST"],
+                           port=data["PORT"],
                            username=data["USERNAME"],
                            password=str(pwd).strip("b").strip("'").strip("'"),
                            database=data["DATABASE"]

@@ -1,6 +1,7 @@
 {
   "HOST": "localhost",
-  "USERNAME": "david",
-  "PASSWORD": "gAAAAABh5gPDtJ6yjSn50SJGJPj3xU3csbflbKk5OWM2bj07l-R8JXUXpw-nLyKvvXFsCe5BbbRkl4QpVhXhj8HXuhQB7Upc4g==",
-  "DATABASE": "ISP"
+  "USERNAME": "root",
+  "PORT": "3306",
+  "PASSWORD": "gAAAAABh6DAyp3shEBkBkuzejsMVZiPp_5Z6nhWZWmQXOWQiOC3FJIjPOZsH2vIfKHuB4pFQSPKV3-VxHhnTq7469xKRHGFrBg==",
+  "DATABASE": "isp"
 }

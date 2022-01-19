@@ -15,7 +15,7 @@ class CustomerManager(Tk):
         super(CustomerManager, self).__init__()
 
         self.title("Customers Manager")
-        self.geometry(window_pos(900, 600))
+        self.geometry(window_pos(1024, 630))
         self.resizable(False, False)
 
         self.user = username
@@ -24,6 +24,9 @@ class CustomerManager(Tk):
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
+
+        # window_title
+        self.window_title = Label(self, text="Customer Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
 
         # create notebook to hold tabs
         self.tabs = Notebook(self)
@@ -35,44 +38,46 @@ class CustomerManager(Tk):
         self.tab4 = Frame(self.tabs)
 
         # add tabs to notebook with tab names
-        self.tabs.add(self.tab1, text="Query Customer Database")
+        self.tabs.add(self.tab1, text="Search Customer Database")
         self.tabs.add(self.tab2, text="Add Customer record")
         self.tabs.add(self.tab3, text="Update Customer record")
+
+        # only admins can delete
         if 'admin' in access_level:
             self.tabs.add(self.tab4, text="Delete Customer record")
 
+        # pack tabs
         self.tabs.grid()
 
         # query tree view
-        self.font_style_large = "arial 20 bold"
-        self.font_style_medium = "arial 16 bold"
-        self.font_style_small = "arial 14"
+        self.font_style_large = "arial 18 bold"
+        self.font_style_medium = "arial 14 "
+        self.font_style_small = "arial 11"
 
         # TAB 1 ######################################################################################################
 
-        # name labels
+        # first name label
         self.f_name_label_tab_1 = Label(self.tab1, text='First Name', font=self.font_style_small).grid(row=0, column=0,
-                                                                                                       sticky="E",
-                                                                                                       padx=(10, 20),
-                                                                                                       pady=(50, 10))
-        # entry boxes
-        self.f_name_entry_tab_1 = Entry(self.tab1, width=50)
-        self.f_name_entry_tab_1.grid(row=0, column=1, columnspan=2, sticky="W", pady=(50, 10), padx=0)
+                                                                                                       padx=(180,2), pady=(40,0),
+                                                                                                       sticky=E)
 
-        # name labels
+        # first name entry boxes
+        self.f_name_entry_tab_1 = Entry(self.tab1, width=50)
+        self.f_name_entry_tab_1.grid(row=0, column=1, sticky=W,pady=(40,0))
+
+        # last name label
         self.l_name_label_tab_1 = Label(self.tab1, text='Last Name', font=self.font_style_small).grid(row=1, column=0,
-                                                                                                      sticky="E",
-                                                                                                      padx=(10, 20))
-        # entry boxes
+                                                                                                      padx=2, pady=5,
+                                                                                                      sticky=E)
+
+        # first name entry boxes
         self.l_name_entry_tab_1 = Entry(self.tab1, width=50)
-        self.l_name_entry_tab_1.grid(row=1, column=1, sticky="NW")
+        self.l_name_entry_tab_1.grid(row=1, column=1,sticky=W)
 
         # button
         self.query_button_tab_1 = Button(self.tab1, width=50, text="Search", command=self.db_query).grid(row=2,
                                                                                                          column=1,
-                                                                                                         columnspan=4,
-                                                                                                         sticky="NW",
-                                                                                                         pady=(10, 50))
+                                                                                                         pady=20,sticky=W)
         #
         self.tree = Treeview(self.tab1, height=15, show='headings')
 
@@ -107,10 +112,13 @@ class CustomerManager(Tk):
             self.tree.column(str(i), anchor="center")
 
         # column width
-        self.tree.column('1', width=40)
-        self.tree.column('2', width=70)
-        self.tree.column('3', width=70)
-        self.tree.column('4', width=70)
+        self.tree.column('1', width=30)
+        self.tree.column('2', width=80)
+        self.tree.column('3', width=80)
+        self.tree.column('4', width=80)
+
+        for i in range(5, 8):
+            self.tree.column(str(i), width=240)
 
         # TAB 2 #######################################################################################################
         # width of entry boxes
@@ -175,7 +183,7 @@ class CustomerManager(Tk):
         # button
         self.query_button_customer_tab_3 = Button(self.tab3, width=20, text="Search", command=self.update_query).grid(
             row=1,
-            column=1)
+            column=1, pady=10)
 
         # entry boxes to insert values
         self.first_name_label_tab_3 = Label(self.tab3, text="First Name").grid(row=2, column=0, pady=(50, 10),
@@ -234,7 +242,8 @@ class CustomerManager(Tk):
 
         # button
         self.delete_button_tab_4 = Button(self.tab4, width=20, text="Search", command=self.delete_record).grid(row=1,
-                                                                                                               column=1)
+                                                                                                               column=1,
+                                                                                                               pady=10)
 
     # delete a record
     def delete_record(self):
@@ -309,7 +318,10 @@ class CustomerManager(Tk):
         self.customer_plan_tab_3.current(plan_id)
 
     def update_record(self):
+        # customer id
         customer_id = self.id_entry_tab_3.get()
+
+        # create error list
         error_list = []
 
         # name checking
@@ -426,7 +438,10 @@ class CustomerManager(Tk):
         #######################################################################################################
 
         cur.execute(
-            f'''  select * from customer_details where customer_first_name ='{f_name}' and customer_last_name ='{l_name}' ''')
+            f'''
+            select * from customer_details where customer_first_name ='{f_name}' and customer_last_name ='{l_name}' 
+            
+                ''')
 
         #######################################################################################################
 

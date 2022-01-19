@@ -34,16 +34,21 @@ class HostWindow(tkinter.Tk):
         self.geometry(window_pos(300, 400))
 
         # font
-        self.l_style = "Arial 15"
-        self.e_style = "Arial 12"
+        self.l_style = "Arial 14"
+        self.e_style = "Arial 11"
 
         # resize
         self.resizable(False, False)
 
-        # label
+        # host address
         self.host_address = Label(self, font=self.l_style, text="Host Address").pack(pady=(20, 0))
         self.host_address_entry = Entry(self, width=25, font=self.e_style)
         self.host_address_entry.pack()
+
+        # host port
+        self.host_port = Label(self, font=self.l_style, text="Port").pack(pady=(20, 0))
+        self.host_port_entry = Entry(self, width=25, font=self.e_style)
+        self.host_port_entry.pack()
 
         # username
         self.username_label = Label(self, font=self.l_style, text="Username").pack(pady=(20, 0))
@@ -82,6 +87,7 @@ class HostWindow(tkinter.Tk):
                 # insert details
                 self.host_address_entry.insert(0, data['HOST'])
                 self.username_entry.insert(0, data['USERNAME'])
+                self.host_port_entry.insert(0, data['PORT'])
                 self.password_entry.insert(0, mask)
                 self.database_entry.insert(0, data['DATABASE'])
 
@@ -92,6 +98,11 @@ class HostWindow(tkinter.Tk):
     def save(self):
 
         password = self.password_entry.get()
+        database = self.database_entry.get()
+
+        if not database:
+            tkinter.messagebox.showerror(title='Error', message="Database missing", parent=self)
+            return
 
         # if pw wasn't changed
         if "*" in password:
@@ -105,6 +116,7 @@ class HostWindow(tkinter.Tk):
         with open(self.json_path, "w") as host_config:
             data = {"HOST": self.host_address_entry.get(),
                     "USERNAME": self.username_entry.get(),
+                    "PORT": self.host_port_entry.get(),
                     "PASSWORD": str(encrypted_pw).strip("b").strip("'").strip("'"),
                     "DATABASE": self.database_entry.get()
                     }
@@ -116,9 +128,8 @@ class HostWindow(tkinter.Tk):
 
         if type(db_check) == mysql.connection.MySQLConnection:
 
-            tkinter.messagebox.showinfo(message="Host configuration saved!", title="Success",parent=self)
+            tkinter.messagebox.showinfo(message="Host configuration saved!", title="Success", parent=self)
             self.destroy()
 
         else:
-            tkinter.messagebox.showerror(title='Error', message=db_check,parent=self)
-
+            tkinter.messagebox.showerror(title='Error', message=db_check, parent=self)
