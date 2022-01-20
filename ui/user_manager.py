@@ -19,6 +19,13 @@ class UserManager(Tk):
         # var
         self.user_user_id_temp = None
 
+        # ready key from file
+        with open(os.path.join(root, 'k.key'), 'rb') as key:
+            key = key.read()
+
+        # encryption key
+        self.key = str(key).strip("b").strip("'").strip("'")
+
         # current user
         self.user = username
         self.access_level = access_level
@@ -133,7 +140,6 @@ class UserManager(Tk):
         self.user_password_tab_3_entry = Entry(self.tab3, width=self.entry_box_width)
         self.user_password_tab_3_entry.grid(row=3, column=1, pady=5)
 
-
         # access_level
         self.user_access_label_tab_3 = Label(self.tab3, text="Access Level ").grid(row=5, column=0, pady=5,
                                                                                    padx=(140, 20))
@@ -148,6 +154,7 @@ class UserManager(Tk):
         self.insert_user_button_tab_3.grid(row=6, column=1, pady=5)
 
     def insert_users(self):
+
         """INSERT NEW USER LOGIN"""
 
         username = self.user_username_tab_2_entry.get().lower()
@@ -164,16 +171,23 @@ class UserManager(Tk):
         cur = db.cursor()
 
         # SQL
-        # INSERT INTO USERS TABLE
-        cur.execute(f'''INSERT INTO USERS (USERNAME,PASSWORD,ACCESS_LEVEL)
-        VALUES("{username}","{password}","{access_level}")''')
+        # INSERT INTO USERS TABLE AND ENCRYPT PASSWORDS USING AES ENCRYPTION
+        cur.execute(f'''
+        INSERT INTO USERS (USERNAME,PASSWORD,ACCESS_LEVEL)
+        VALUES(
+        "{username}",
+        AES_ENCRYPT("{password}",'{self.key}'),
+        "{access_level}")
+        ''')
 
         # GET LAST GENERATED USER_ID FROM USERS TABLE
         cur.execute('''SET @LAST_ID = LAST_INSERT_ID()''')
 
         # INSERT USER_ID AND EMPLOYEE_ID INTO EMPLOYEE_LOGINS TABLE
-        cur.execute(f'''INSERT INTO EMPLOYEE_LOGINS (LOGIN_USER_ID,LOGIN_EMPLOYEE_ID)
-        VALUES(@LAST_ID,"{employee_id}")''')
+        cur.execute(f'''
+        INSERT INTO EMPLOYEE_LOGINS (LOGIN_USER_ID,LOGIN_EMPLOYEE_ID)
+        VALUES (@LAST_ID,"{employee_id}")
+        ''')
 
         db.commit()
         db.close()
@@ -196,11 +210,11 @@ class UserManager(Tk):
 
         sql = f'''
         
-        SELECT user_id,USERNAME,access_level
+        SELECT USER_ID,USERNAME,ACCESS_LEVEL
         FROM EMPLOYEE_LOGINS
-        JOIN users on login_user_id=user_id
-        join employees on login_employee_id =employee_id
-        where login_id = '{user_id}'
+        JOIN USERS on LOGIN_USER_ID=USER_ID
+        JOIN EMPLOYEES on LOGIN_EMPLOYEE_ID = EMPLOYEE_ID
+        WHERE LOGIN_ID = '{user_id}'
         
         '''
 
@@ -221,11 +235,11 @@ class UserManager(Tk):
         self.user_access_level_tab_3.set(f'''{access_level.upper()}''')
         self.user_username_tab_3_entry.insert(0, username)
 
-
         # close
         db.close()
 
     def update_user(self):
+        """UPDATE USER INFO"""
         login_id = self.search_user_id_entry_tab_3.get()
         user_id = self.user_user_id_temp
         username = self.user_username_tab_3_entry.get()
@@ -243,7 +257,7 @@ class UserManager(Tk):
         
         UPDATE USERS
         SET USERNAME = '{username}',
-        PASSWORD = '{password}',
+        PASSWORD = AES_ENCRYPT("{password}",'{self.key}'),
         ACCESS_LEVEL = '{access_level}'
         WHERE USER_ID = '{user_id}'
         
@@ -251,6 +265,13 @@ class UserManager(Tk):
 
         db.commit()
         db.close()
+
+        self.search_user_id_entry_tab_3.delete(0, END)
+        self.user_username_tab_3_entry.delete(0, END)
+        self.user_password_tab_3_entry.delete(0, END)
+        self.user_access_level_tab_3.set(' ')
+
+        messagebox.showinfo(title="Done", message="User Added", parent=self.tab3)
 
     def query_users(self):
         """QUERY USERS TABLE"""

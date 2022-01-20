@@ -17,6 +17,12 @@ class LoginWindow(tk.Tk):
 
     def __init__(self):
         super(LoginWindow, self).__init__()
+        # ready key from file
+        with open(os.path.join(root, 'k.key'), 'rb') as key:
+            key = key.read()
+
+        # encryption key
+        self.key = str(key).strip("b").strip("'").strip("'")
 
         # title
         self.title("Login")
@@ -107,9 +113,12 @@ class LoginWindow(tk.Tk):
         db = funcs.connector.db_conn()
         cur = db.cursor()
 
-        # TODO: ENCRYPT THE USER PASSWORDS IN THE DATABASE
+
         # SQL
-        cur.execute(f'''SELECT access_level FROM USERS WHERE username = '{user_name}' and password = '{pass_word}' ''')
+        cur.execute(f'''SELECT access_level FROM USERS WHERE username = '{user_name}'
+         and 
+        password = AES_ENCRYPT("{pass_word}",'{self.key}') ''')
+
         found = cur.fetchone()
 
         if found:
