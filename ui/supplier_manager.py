@@ -107,6 +107,138 @@ class SupplierManager(Tk):
                                           command=self.insert_supplier)
         self.submit_button_tab_2.grid(row=4, column=1, pady=20)
 
+        # tab 3 ##################################################################################
+        self.supplier_id_label = Label(self.tab3, text="Supplier ID").grid(row=0, column=0, pady=(50, 5),
+                                                                           padx=(240, 20))
+        self.supplier_id_entry = Entry(self.tab3, width=self.entry_box_width)
+        self.supplier_id_entry.grid(row=0, column=1, pady=(50, 5))
+        self.search_supplier_button = Button(self.tab3, text="Search", command=self.update_query)
+        self.search_supplier_button.grid(row=1, column=1)
+
+        # name
+        self.supplier_name_tab_3 = Label(self.tab3, text="Name").grid(row=2, column=0, pady=(30, 5), padx=(240, 20))
+        self.supplier_name_entry_tab_3 = Entry(self.tab3, width=self.entry_box_width)
+        self.supplier_name_entry_tab_3.grid(row=2, column=1, pady=(30, 5))
+
+        # address
+        self.supplier_address_tab_3 = Label(self.tab3, text="Address").grid(row=3, column=0, pady=(5, 5),
+                                                                            padx=(240, 20))
+        self.supplier_address_entry_tab_3 = Entry(self.tab3, width=self.entry_box_width)
+        self.supplier_address_entry_tab_3.grid(row=3, column=1, pady=5)
+
+        # email
+        self.supplier_email_tab_3 = Label(self.tab3, text="Email").grid(row=4, column=0, pady=(5, 5), padx=(240, 20))
+        self.supplier_email_entry_tab_3 = Entry(self.tab3, width=self.entry_box_width)
+        self.supplier_email_entry_tab_3.grid(row=4, column=1, pady=5)
+
+        # telephone
+        self.supplier_telephone_tab_3 = Label(self.tab3, text="Telephone").grid(row=5, column=0, pady=(5, 5),
+                                                                                padx=(240, 20))
+        self.supplier_telephone_entry_tab_3 = Entry(self.tab3, width=self.entry_box_width)
+        self.supplier_telephone_entry_tab_3.grid(row=5, column=1, pady=5)
+
+        # button
+        self.submit_button_tab_3 = Button(self.tab3, text="Submit", width=self.entry_box_width,
+                                          command=self.update_supplier)
+        self.submit_button_tab_3.grid(row=6, column=1, pady=20)
+
+    # update record
+    def update_supplier(self):
+        name = self.supplier_name_entry_tab_3.get().lower().capitalize()
+        address = self.supplier_address_entry_tab_3.get().lower().capitalize()
+        email = self.supplier_email_entry_tab_3.get().lower()
+        telephone = self.supplier_telephone_entry_tab_3.get()
+        supplier_id = self.supplier_id_entry.get()
+
+        error_list = []
+
+        if not name:
+            error_list.append("Check Supplier Name Field")
+
+        if not address:
+            error_list.append("Check Supplier Address Field")
+
+        if not email:
+            error_list.append("Check Supplier Email Field")
+
+        number_list = '1234567890'
+        number_check = [False for number in telephone]
+
+        # if phone is too short or invalid
+        if len(telephone) <= 10:
+            for index, number in enumerate(telephone):
+                if number in number_list:
+                    number_check[index] = True
+
+            if not all(number_check):
+                error_list.append("Check Telephone Number")
+        else:
+            error_list.append("Check Telephone Number")
+        # check errors
+        if error_list:
+            # make list into string
+            error_str = '\n'.join(error_list)
+
+            messagebox.showerror(message=error_str, title="ERROR!", parent=self.tab2)
+
+        else:
+            # db conn
+            db = db_conn()
+            cur = db.cursor()
+
+            cur.execute(f'''
+                    UPDATE SUPPLIERS
+                    SET SUPPLIER_NAME = '{name}',
+                    SUPPLIER_ADDRESS = '{address}',
+                    SUPPLIER_EMAIL = '{email}',
+                    SUPPLIER_TELEPHONE = '{telephone}'
+                    WHERE SUPPLIER_ID = '{supplier_id}'
+                    
+                    
+                    ''')
+            # commit and close db connection
+            db.commit()
+            db.close()
+
+            self.supplier_address_entry_tab_3.delete(0, END)
+            self.supplier_name_entry_tab_3.delete(0, END)
+            self.supplier_email_entry_tab_3.delete(0, END)
+            self.supplier_telephone_entry_tab_3.delete(0, END)
+
+            # success message
+            messagebox.showinfo(title="Success", message="Added Supplier Information", parent=self.tab2)
+
+    # get supplier info to update
+    def update_query(self):
+        supplier_id = self.supplier_id_entry.get()
+        db = db_conn()
+        cur = db.cursor()
+
+        cur.execute(f'''
+        SELECT 
+        SUPPLIER_NAME,
+        SUPPLIER_ADDRESS,
+        SUPPLIER_EMAIL,
+        SUPPLIER_TELEPHONE
+        FROM SUPPLIERS WHERE SUPPLIER_ID = "{supplier_id}"
+        ''')
+
+        data = cur.fetchone()
+        # clear boxes
+        self.supplier_address_entry_tab_3.delete(0, END)
+        self.supplier_name_entry_tab_3.delete(0, END)
+        self.supplier_email_entry_tab_3.delete(0, END)
+        self.supplier_telephone_entry_tab_3.delete(0, END)
+
+        # insert
+        self.supplier_name_entry_tab_3.insert(0, data[0])
+        self.supplier_address_entry_tab_3.insert(0, data[1])
+
+        self.supplier_email_entry_tab_3.insert(0, data[2])
+        self.supplier_telephone_entry_tab_3.insert(0, data[3])
+
+        db.close()
+
     # insert supplier info
     def insert_supplier(self):
         """INSERT SUPPLIER INFORMATION"""
@@ -168,6 +300,11 @@ class SupplierManager(Tk):
             # commit and close db connection
             db.commit()
             db.close()
+
+            self.supplier_address_entry_tab_2.delete(0, END)
+            self.supplier_address_tab_2.delete(0, END)
+            self.supplier_email_entry_tab_2.delete(0, END)
+            self.supplier_telephone_entry_tab_2.delete(0, END)
 
             # success message
             messagebox.showinfo(title="Success", message="Added Supplier Information", parent=self.tab2)

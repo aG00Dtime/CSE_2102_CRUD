@@ -68,8 +68,8 @@ class UserManager(Tk):
         self.tree.column('1', width=50)
         self.tree.column('2', width=100)
         self.tree.column('3', width=150)
-        self.tree.column('4', width=150)
-        self.tree.column('5', width=150)
+        self.tree.column('4', width=180)
+        self.tree.column('5', width=180)
 
         # center tree data
         for i in range(5):
