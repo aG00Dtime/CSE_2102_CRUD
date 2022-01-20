@@ -30,14 +30,15 @@ CREATE TABLE employees (
     modified_by VARCHAR(45)
 
 );
-CREATE TABLE employee_logins(
-
-			login_id int not null auto_increment primary key,
-            login_user_id INT NOT NULL,
-			login_employee_id INT NOT NULL,
-
-            FOREIGN KEY (login_user_id) references users (user_id),
-            FOREIGN KEY (login_employee_id) references employees(employee_id)
+  
+CREATE TABLE employee_logins (
+    login_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    login_user_id INT NOT NULL UNIQUE,
+    login_employee_id INT NOT NULL UNIQUE,
+    FOREIGN KEY (login_user_id)
+        REFERENCES users (user_id),
+    FOREIGN KEY (login_employee_id)
+        REFERENCES employees (employee_id)
 );
 
 CREATE TABLE plans (
@@ -109,6 +110,8 @@ insert into plans (plan_name,plan_burst_speed,plan_cost,plan_download_speed,plan
 insert into users (username,password,access_level) values ('admin','1234','admin');
 
 
+
+
 insert into users (username,password,access_level) values ('david','1234','user');
 
 
@@ -158,13 +161,12 @@ on employees for each row
 set new.modified_on = now();
 
 -- view
+
 create view `employee_login` as
-select username,password,employee_first_name,employee_last_name
+select login_id,username,access_level,employee_first_name,employee_last_name
 from employee_logins
 join employees on login_employee_id=employee_id
 join users on login_user_id=user_id;
 
-
+ insert into employee_logins (login_user_id,login_employee_id) values ("1","1");
 select * from employee_login;
-
-select * from employees;

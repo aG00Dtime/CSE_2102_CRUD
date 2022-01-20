@@ -3,8 +3,6 @@ import mysql.connector as con
 import random
 import os
 
-
-
 # db details
 db = con.connect(
     host='localhost',
@@ -32,7 +30,7 @@ with open('data.json', "r") as file:
 
         cur.execute(f'''
         
-        INSERT INTO CUSTOMERS (
+        INSERT  INTO CUSTOMERS  (
         CUSTOMER_FIRST_NAME,
         CUSTOMER_LAST_NAME,
         CUSTOMER_EMAIL,

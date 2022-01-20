@@ -180,7 +180,6 @@ class CustomerManager(Tk):
         self.customer_plan_label_tab_2 = Label(self.tab2, text="Select Plan").grid(row=7, column=0, pady=10,
                                                                                    padx=(250, 20),
                                                                                    sticky=NW)
-        # device box
 
         self.customer_plan_tab_2 = Combobox(self.tab2, width=36, state='readonly')
 
