@@ -1,3 +1,4 @@
+import os
 from tkinter import *
 from tkinter.ttk import *
 
@@ -6,7 +7,6 @@ from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
-import os
 
 root = os.path.abspath(os.curdir)
 
@@ -33,7 +33,8 @@ class MainMenu(Tk):
         self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(20, 0))
 
         if 'admin' in access_level:
-            self.supplier_button = Button(self, text="Manage Supplier", command=self.supplier, width=40).pack(pady=(20, 0))
+            self.supplier_button = Button(self, text="Manage Supplier", command=self.supplier, width=40).pack(
+                pady=(20, 0))
 
             self.users_button = Button(self, text="Manage Users", command=self.users, width=40).pack(
                 pady=(20, 0))
@@ -46,5 +47,6 @@ class MainMenu(Tk):
 
     def supplier(self):
         open_supplier_manager = SupplierManager(self.access, self.user)
+
     def users(self):
         open_user_manager = UserManager(self.access, self.user)

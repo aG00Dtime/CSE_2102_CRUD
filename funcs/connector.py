@@ -7,18 +7,15 @@ from mysql.connector import errorcode
 
 # paths
 root = os.path.abspath(os.curdir)
-json_path = os.path.join(root,'host_config.json')
+json_path = os.path.join(root, 'host_config.json')
 
 
 def db_conn():
-
     try:
         # read file
         if os.path.exists(json_path) and not os.stat(json_path).st_size == 0:
-
             # open file if it exists and isn't empty
             with open(json_path, "r") as file:
-
                 # load file
                 data = json.load(file)
                 # key would be saved to a file somewhere secure

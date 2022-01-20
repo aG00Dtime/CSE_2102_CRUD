@@ -193,7 +193,7 @@ class EmployeeManager(Tk):
 
         # submit button
         self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.insert_employee).grid(row=10,
-                                                                                                                column=1)
+                                                                                                                 column=1)
 
         # TAB 3 #######################################################################################################
 
@@ -378,7 +378,7 @@ class EmployeeManager(Tk):
         number_check = [False for number in phone]
 
         # if phone is too short or invalid
-        if len(phone)  <= 10:
+        if len(phone) <= 10:
             for index, number in enumerate(phone):
                 if number in number_list:
                     number_check[index] = True
@@ -490,7 +490,7 @@ class EmployeeManager(Tk):
                 self.tree.insert("", END,
                                  values=(
                                      column[0], column[1], column[2], column[3], column[4], column[5], column[6],
-                                     column[7],column[8]))
+                                     column[7], column[8]))
 
         db.close()
 

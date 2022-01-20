@@ -25,7 +25,7 @@ class UserManager(Tk):
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         # window_title
-        self.window_title = Label(self, text="user Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
+        self.window_title = Label(self, text="User Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
 
         # create notebook to hold tabs
         self.tabs = Notebook(self)
@@ -57,7 +57,7 @@ class UserManager(Tk):
         self.tree.configure(yscrollcommand=self.scrollbar.set)
 
         # conf columns
-        self.tree['columns'] = ("1", "2", "3", "4","5")
+        self.tree['columns'] = ("1", "2", "3", "4", "5")
         self.tree.heading("1", text="ID")
         self.tree.heading("2", text="Username")
         self.tree.heading("3", text="Access Level")
@@ -174,5 +174,5 @@ class UserManager(Tk):
             for column in data:
                 self.tree.insert("", END,
                                  values=(
-                                     column[0], column[1], column[2], column[3],column[4]))
+                                     column[0], column[1], column[2], column[3], column[4]))
         db.close()

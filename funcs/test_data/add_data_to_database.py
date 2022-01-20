@@ -1,7 +1,7 @@
 import json
-import mysql.connector as con
 import random
-import os
+
+import mysql.connector as con
 
 # db details
 db = con.connect(

@@ -127,7 +127,7 @@ class LoginWindow(tk.Tk):
 
             self.destroy()
             # open next window
-            main_menu = MainMenu(access_level,user_name)
+            main_menu = MainMenu(access_level, user_name)
 
         # if login fails
         else:
