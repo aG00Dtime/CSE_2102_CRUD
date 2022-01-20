@@ -110,6 +110,7 @@ class UserManager(Tk):
         self.insert_user_button.grid(row=4, column=1, pady=5)
 
     def insert_users(self):
+        """INSERT NEW USER LOGIN"""
 
         username = self.user_username_tab_2_entry.get().lower()
         password = self.user_password_tab_2_entry.get().lower()
@@ -149,7 +150,6 @@ class UserManager(Tk):
         messagebox.showinfo(title="Done", message="Success", parent=self.tab2)
 
     def query_users(self):
-
         """QUERY USERS TABLE"""
 
         # connect to db
