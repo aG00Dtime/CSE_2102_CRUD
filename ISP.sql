@@ -170,3 +170,12 @@ join users on login_user_id=user_id;
 
  insert into employee_logins (login_user_id,login_employee_id) values ("1","1");
 select * from employee_login;
+
+select * from employees where  employee_first_name ="david";
+
+SELECT * FROM EMPLOYEE_LOGINs;
+
+SELECT users.USERNAME,EMPLOYEE_ID,employee.employee_first_name,employee.employee_last_name
+FROM EMPLOYEE_LOGINa
+JOIN users on login_user_id=user_id
+join employees on login_employee_id =employee_id

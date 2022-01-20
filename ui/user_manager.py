@@ -16,6 +16,8 @@ class UserManager(Tk):
         self.title("User Manager")
         self.geometry(window_pos(700, 500))
         self.resizable(False, False)
+        # var
+        self.user_user_id_temp = None
 
         # current user
         self.user = username
@@ -109,6 +111,42 @@ class UserManager(Tk):
                                          command=self.insert_users)
         self.insert_user_button.grid(row=4, column=1, pady=5)
 
+        # tab 3 #############################################################################################
+        # search by id
+        self.search_user_id_tab_3 = Label(self.tab3, text="User ID").grid(row=0, column=0, pady=(50, 5), padx=(140, 20))
+
+        self.search_user_id_entry_tab_3 = Entry(self.tab3, width=self.entry_box_width)
+        self.search_user_id_entry_tab_3.grid(row=0, column=1, pady=(50, 5))
+
+        self.search_id_button = Button(self.tab3, width=self.entry_box_width, text="Search",
+                                       command=self.query_update_user).grid(row=1, column=1)
+
+        # name
+        self.user_username_tab_3_label = Label(self.tab3, text="Username").grid(row=2, column=0, pady=(30, 5),
+                                                                                padx=(140, 20))
+        self.user_username_tab_3_entry = Entry(self.tab3, width=self.entry_box_width)
+        self.user_username_tab_3_entry.grid(row=2, column=1, pady=(30, 5))
+
+        # password
+        self.user_password_tab_3_label = Label(self.tab3, text="Password").grid(row=3, column=0, pady=5,
+                                                                                padx=(140, 20))
+        self.user_password_tab_3_entry = Entry(self.tab3, width=self.entry_box_width)
+        self.user_password_tab_3_entry.grid(row=3, column=1, pady=5)
+
+
+        # access_level
+        self.user_access_label_tab_3 = Label(self.tab3, text="Access Level ").grid(row=5, column=0, pady=5,
+                                                                                   padx=(140, 20))
+
+        self.user_access_level_tab_3 = Combobox(self.tab3, width=36, state='readonly')
+        self.user_access_level_tab_3['values'] = ["ADMIN", "USER"]
+        self.user_access_level_tab_3.grid(row=5, column=1, pady=5)
+
+        # submit
+        self.insert_user_button_tab_3 = Button(self.tab3, text="Submit", command=self.update_user,
+                                               width=self.entry_box_width)
+        self.insert_user_button_tab_3.grid(row=6, column=1, pady=5)
+
     def insert_users(self):
         """INSERT NEW USER LOGIN"""
 
@@ -148,6 +186,71 @@ class UserManager(Tk):
 
         # done message
         messagebox.showinfo(title="Done", message="Success", parent=self.tab2)
+
+    def query_update_user(self):
+
+        user_id = self.search_user_id_entry_tab_3.get()
+
+        db = db_conn()
+        cur = db.cursor()
+
+        sql = f'''
+        
+        SELECT user_id,USERNAME,access_level
+        FROM EMPLOYEE_LOGINS
+        JOIN users on login_user_id=user_id
+        join employees on login_employee_id =employee_id
+        where login_id = '{user_id}'
+        
+        '''
+
+        cur.execute(sql)
+
+        data = cur.fetchone()
+
+        self.user_user_id_temp = data[0]
+        username = data[1]
+        access_level = data[2]
+
+        # clear boxes
+        self.user_access_level_tab_3.set(' ')
+        self.user_username_tab_3_entry.delete(0, END)
+        self.user_password_tab_3_entry.delete(0, END)
+
+        # insert user details
+        self.user_access_level_tab_3.set(f'''{access_level.upper()}''')
+        self.user_username_tab_3_entry.insert(0, username)
+
+
+        # close
+        db.close()
+
+    def update_user(self):
+        login_id = self.search_user_id_entry_tab_3.get()
+        user_id = self.user_user_id_temp
+        username = self.user_username_tab_3_entry.get()
+        password = self.user_password_tab_3_entry.get()
+        access_level = self.user_access_level_tab_3.get().lower()
+
+        if not username or not password or not login_id or not access_level:
+            messagebox.showerror(title="Error", message="Ensure All Fields Are Correct", parent=self.tab3)
+            return
+
+        db = db_conn()
+        cur = db.cursor()
+
+        cur.execute(f"""
+        
+        UPDATE USERS
+        SET USERNAME = '{username}',
+        PASSWORD = '{password}',
+        ACCESS_LEVEL = '{access_level}'
+        WHERE USER_ID = '{user_id}'
+        
+        """)
+
+        db.commit()
+        db.close()
 
     def query_users(self):
         """QUERY USERS TABLE"""
