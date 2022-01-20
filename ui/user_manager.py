@@ -43,12 +43,12 @@ class UserManager(Tk):
         if 'admin' in access_level:
             self.tabs.add(self.tab4, text="Delete User")
 
-        tkinter.Grid.rowconfigure(self,0,weight=1)
-        tkinter.Grid.columnconfigure(self,0,weight=0)
-        self.tabs.grid(column=0,row=0,sticky=E+W+N+S)
+        tkinter.Grid.rowconfigure(self, 0, weight=1)
+        tkinter.Grid.columnconfigure(self, 0, weight=0)
+        self.tabs.grid(column=0, row=0, sticky=E + W + N + S)
         # tab 1
 
-        self.view_label=Label(self.tab1,text='Load User List').grid()
+        self.view_label = Label(self.tab1, text='Load User List').grid()
 
 
 user = UserManager('admin', 'admin')

@@ -21,7 +21,7 @@ class CustomerManager(Tk):
         self.resizable(False, False)
 
         self.user = username
-        self.access_level=access_level
+        self.access_level = access_level
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
@@ -185,14 +185,14 @@ class CustomerManager(Tk):
         self.customer_plan_tab_2 = Combobox(self.tab2, width=36, state='readonly')
 
         # query from db instead to values
-        self.customer_plan_tab_2['values'] = self.db_get_table()
+        self.customer_plan_tab_2['values'] = self.get_plans()
 
         ##################
         self.customer_plan_tab_2.grid(row=7, column=1, pady=10)
 
         # submit button
-        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=10,
-                                                                                                                column=1)
+        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.insert_customer).grid(row=10,
+                                                                                                                 column=1)
 
         # TAB 3 #######################################################################################################
 
@@ -247,7 +247,7 @@ class CustomerManager(Tk):
         self.customer_plan_tab_3 = Combobox(self.tab3, width=36, state='readonly')
 
         # query from db instead to values
-        self.customer_plan_tab_3['values'] = self.db_get_table()
+        self.customer_plan_tab_3['values'] = self.get_plans()
 
         self.customer_plan_tab_3.grid(row=7, column=1, pady=10)
 
@@ -373,7 +373,7 @@ class CustomerManager(Tk):
         number_check = [False for number in phone]
 
         # if phone is too short or invalid
-        if len(phone) == 7:
+        if len(phone) <= 10:
             for index, number in enumerate(phone):
                 if number in number_list:
                     number_check[index] = True
@@ -430,7 +430,9 @@ class CustomerManager(Tk):
             messagebox.showinfo(title="Success", message="Done.", parent=self.tab3)
 
     @staticmethod
-    def db_get_table():
+    def get_plans():
+        """GET LIST OF AVAILABLE PLANS"""
+
         # connect to db and fetch plans available
         db = db_conn()
         cur = db.cursor()
@@ -446,6 +448,7 @@ class CustomerManager(Tk):
 
     # query func
     def db_query(self):
+        """SEARCH DATABASE"""
 
         # connect to db
         db = db_conn()
@@ -462,7 +465,10 @@ class CustomerManager(Tk):
 
         cur.execute(
             f'''
-            select * from customer_details where customer_first_name ='{f_name}' and customer_last_name ='{l_name}' 
+            select * from customer_details 
+            where customer_first_name ='{f_name}' 
+            and 
+            customer_last_name ='{l_name}' 
             
                 ''')
 
@@ -479,13 +485,16 @@ class CustomerManager(Tk):
             else:
                 self.tree.insert("", END,
                                  values=(
-                                     column[0], column[1], column[2], column[3], column[4], column[5], column[6],column[7]))
+                                     column[0], column[1], column[2], column[3], column[4], column[5], column[6],
+                                     column[7]))
 
         db.close()
 
     # submit
-    def submit_details(self):
+    def insert_customer(self):
+        """INSERT CUSTOMER DETAILS"""
 
+        # error list
         error_list = []
 
         # name checking
@@ -515,7 +524,7 @@ class CustomerManager(Tk):
         number_check = [False for number in phone]
 
         # if phone is too short or invalid
-        if len(phone) == 7:
+        if len(phone) <= 10:
             for index, number in enumerate(phone):
                 if number in number_list:
                     number_check[index] = True

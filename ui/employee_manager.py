@@ -192,7 +192,7 @@ class EmployeeManager(Tk):
         #
 
         # submit button
-        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.submit_details).grid(row=10,
+        self.submit_button_tab_2 = Button(self.tab2, width=20, text="Submit", command=self.insert_employee).grid(row=10,
                                                                                                                 column=1)
 
         # TAB 3 #######################################################################################################
@@ -378,7 +378,7 @@ class EmployeeManager(Tk):
         number_check = [False for number in phone]
 
         # if phone is too short or invalid
-        if len(phone) == 7:
+        if len(phone)  <= 10:
             for index, number in enumerate(phone):
                 if number in number_list:
                     number_check[index] = True
@@ -450,6 +450,7 @@ class EmployeeManager(Tk):
 
     # query func
     def db_query(self):
+        """SEARCH DB FOR EMPLOYEE"""
 
         # connect to db
         db = db_conn()
@@ -494,7 +495,8 @@ class EmployeeManager(Tk):
         db.close()
 
     # submit
-    def submit_details(self):
+    def insert_employee(self):
+        """INSERT EMPLOYEE DETAILS"""
 
         error_list = []
 
@@ -518,7 +520,7 @@ class EmployeeManager(Tk):
         number_check = [False for number in phone]
 
         # if phone is too short or invalid
-        if len(phone) == 7:
+        if len(phone) <= 10:
             for index, number in enumerate(phone):
                 if number in number_list:
                     number_check[index] = True

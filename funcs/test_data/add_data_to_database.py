@@ -1,6 +1,8 @@
 import json
 import mysql.connector as con
 import random
+import os
+
 
 
 # db details
@@ -12,7 +14,7 @@ db = con.connect(
 )
 
 # add
-with open("data.json", "r") as file:
+with open('data.json', "r") as file:
     data = json.load(file)
     cur = db.cursor()
 

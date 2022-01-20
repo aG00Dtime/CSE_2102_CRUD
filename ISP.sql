@@ -11,16 +11,8 @@ CREATE TABLE users (
     
 );
 
-drop table employee_logins;
-CREATE TABLE employee_logins(
 
-			login_id int not null auto_increment primary key,
-            login_user_id INT NOT NULL,
-			login_employee_id INT NOT NULL,
 
-            FOREIGN KEY (login_user_id) references users (user_id),
-            FOREIGN KEY (login_employee_id) references employees(employee_id)
-);
 
 CREATE TABLE employees (
 
@@ -38,7 +30,15 @@ CREATE TABLE employees (
     modified_by VARCHAR(45)
 
 );
+CREATE TABLE employee_logins(
 
+			login_id int not null auto_increment primary key,
+            login_user_id INT NOT NULL,
+			login_employee_id INT NOT NULL,
+
+            FOREIGN KEY (login_user_id) references users (user_id),
+            FOREIGN KEY (login_employee_id) references employees(employee_id)
+);
 
 CREATE TABLE plans (
     plan_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -107,10 +107,10 @@ insert into plans (plan_name,plan_burst_speed,plan_cost,plan_download_speed,plan
 
 -- create user in user table
 insert into users (username,password,access_level) values ('admin','1234','admin');
-insert into employee_logins (login_user_id,login_employee_id) values (LAST_INSERT_ID(),'1');
+
 
 insert into users (username,password,access_level) values ('david','1234','user');
-insert into employee_logins (login_user_id,login_employee_id) values (LAST_INSERT_ID(),'2');
+
 
 
 -- add suppliers
@@ -157,18 +157,14 @@ before update
 on employees for each row
 set new.modified_on = now();
 
---
-
-
-drop view employee_login;
+-- view
 create view `employee_login` as
 select username,password,employee_first_name,employee_last_name
 from employee_logins
 join employees on login_employee_id=employee_id
 join users on login_user_id=user_id;
 
-insert into users (username,password,access_level) values ('john','1234','user');
-set @last_id = LAST_INSERT_ID();
-insert into employee_logins (login_user_id,login_employee_id) values (@last_id,'3');
 
 select * from employee_login;
+
+select * from employees;

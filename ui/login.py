@@ -107,7 +107,7 @@ class LoginWindow(tk.Tk):
         db = funcs.connector.db_conn()
         cur = db.cursor()
 
-        # TODO: ENCRYPT THE PASSWORDS IN THE DATABASE
+        # TODO: ENCRYPT THE USER PASSWORDS IN THE DATABASE
         # SQL
         cur.execute(f'''SELECT access_level FROM USERS WHERE username = '{user_name}' and password = '{pass_word}' ''')
         found = cur.fetchone()
