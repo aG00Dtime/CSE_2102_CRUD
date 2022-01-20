@@ -271,7 +271,7 @@ class UserManager(Tk):
         self.user_password_tab_3_entry.delete(0, END)
         self.user_access_level_tab_3.set(' ')
 
-        messagebox.showinfo(title="Done", message="User Added", parent=self.tab3)
+        messagebox.showinfo(title="Done", message="User Updated.", parent=self.tab3)
 
     def query_users(self):
         """QUERY USERS TABLE"""
@@ -299,4 +299,6 @@ class UserManager(Tk):
                 self.tree.insert("", END,
                                  values=(
                                      column[0], column[1], column[2], column[3], column[4]))
+
+        # close
         db.close()
