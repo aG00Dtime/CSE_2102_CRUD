@@ -1,10 +1,13 @@
 import os
+from fpdf import FPDF
+
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import *
 
 from funcs.connector import db_conn
 from funcs.window_position import window_pos
+from tkinter.filedialog import askdirectory
 
 root = os.path.abspath(os.curdir)
 
@@ -86,9 +89,9 @@ class OrderManager(Tk):
 
         # delete orders
         self.order_id = Label(self.tab3, text="Order ID").grid(row=0, column=0, pady=20,
-                                                                        padx=(200, 0))
-        self.order_id_entry = Entry(self.tab3, width=40)
-        self.order_id_entry.grid(row=0, column=1)
+                                                               padx=(200, 0))
+        self.order_id_entry_tab3 = Entry(self.tab3, width=40)
+        self.order_id_entry_tab3.grid(row=0, column=1)
 
         # button
         self.submit_button_tab_3 = Button(self.tab3, text="Delete", width=40, command=self.delete_orders)
@@ -96,17 +99,62 @@ class OrderManager(Tk):
 
         # tab 4 create invoice
         self.order_id = Label(self.tab4, text="Order ID").grid(row=0, column=0, pady=20,
-                                                                        padx=(200, 0))
-        self.order_id_entry = Entry(self.tab4, width=40)
-        self.order_id_entry.grid(row=0, column=1)
+                                                               padx=(200, 0))
+        self.order_id_entry_tab4 = Entry(self.tab4, width=40)
+        self.order_id_entry_tab4.grid(row=0, column=1)
 
         # button
-        self.submit_button_tab_3 = Button(self.tab4, text="Create Invoice", width=40)
-        self.submit_button_tab_3.grid(row=2, column=1)
+        self.submit_button_tab_4 = Button(self.tab4, text="Create Invoice", width=40, command=self.create_invoice)
+        self.submit_button_tab_4.grid(row=2, column=1)
+
+    def create_invoice(self):
+
+        order_id = self.order_id_entry_tab4.get()
+
+        db = db_conn()
+        cur = db.cursor()
+        cur.execute(F'''
+        SELECT * FROM CUSTOMER_ORDERS WHERE ORDER_ID = '{order_id}'
+
+        ''')
+
+        order = cur.fetchone()
+
+        db.close()
+
+        print(order)
+
+        if not order:
+            messagebox.showerror(message="Order not found", title="Error", parent=self.tab4)
+            return
+
+        customer_name = f'''{order[1]} {order[2]}'''
+        plan = order[3]
+
+
+
+
+        # create invoice
+        pdf = FPDF('P', 'mm', 'Letter')
+        pdf.add_page()
+        pdf.set_font('helvetica', '', 18)
+
+        pdf.cell(200, 20, "SMJ", ln=1, align="C")
+        pdf.cell(200, 20, customer_name, ln=1, align="l")
+        pdf.cell(200, 20, plan, ln=1, align="l")
+
+        save_dir = askdirectory()
+
+        save_path = os.path.join(save_dir, "test.pdf")
+
+        if save_path:
+            pdf.output(save_path)
+
+        messagebox.showinfo(title="Done", message="Invoice Created", parent=self.tab4)
 
     def delete_orders(self):
 
-        order_id = self.order_id_entry.get()
+        order_id = self.order_id_entry_tab3.get()
 
         db = db_conn()
         cur = db.cursor()
