@@ -113,7 +113,6 @@ class LoginWindow(tk.Tk):
         db = funcs.connector.db_conn()
         cur = db.cursor()
 
-
         # SQL
         cur.execute(f'''SELECT access_level FROM USERS WHERE username = '{user_name}'
          and 
@@ -141,5 +140,3 @@ class LoginWindow(tk.Tk):
         # if login fails
         else:
             mb.showerror(title="Error", message="Username or Password Error")
-
-        # ---------------------------------------

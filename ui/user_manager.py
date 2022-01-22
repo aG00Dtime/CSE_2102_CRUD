@@ -206,6 +206,10 @@ class UserManager(Tk):
 
         user_id = self.search_user_id_entry_tab_3.get()
 
+        if not user_id:
+            messagebox.showerror(title="Error",message="Enter ID")
+            return
+
         db = db_conn()
         cur = db.cursor()
 
@@ -244,7 +248,9 @@ class UserManager(Tk):
         db.close()
 
     def update_user(self):
+
         """UPDATE USER INFO"""
+
         login_id = self.search_user_id_entry_tab_3.get()
         user_id = self.user_user_id_temp
         username = self.user_username_tab_3_entry.get()
@@ -276,7 +282,7 @@ class UserManager(Tk):
         self.user_password_tab_3_entry.delete(0, END)
         self.user_access_level_tab_3.set(' ')
 
-        messagebox.showinfo(title="Done", message="User Added", parent=self.tab3)
+        messagebox.showinfo(title="Done", message="User Updated.", parent=self.tab3)
 
     def query_users(self):
         """QUERY USERS TABLE"""
@@ -305,4 +311,6 @@ class UserManager(Tk):
                 self.tree.insert("", END,
                                  values=(
                                      column[0], column[1], column[2], column[3], column[4]))
+
+        # close
         db.close()

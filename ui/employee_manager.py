@@ -126,7 +126,7 @@ class EmployeeManager(Tk):
                 self.tree.column(str(i), anchor="center")
 
             for i in range(5, 8):
-                self.tree.column(str(i), width=240)
+                self.tree.column(str(i), width=180)
         else:
             # column width
             self.tree.column('1', width=30)
@@ -139,7 +139,7 @@ class EmployeeManager(Tk):
             self.tree.column('8', width=100)
             self.tree.column('9', width=100)
 
-            for i in range(9):
+            for i in range(10):
                 self.tree.column(str(i), anchor="center")
 
         # TAB 2 #######################################################################################################

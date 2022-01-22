@@ -6,8 +6,9 @@ use ISP;
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     username VARCHAR(45) NOT NULL UNIQUE,
-    password BLOB NOT NULL,
+    password VARCHAR(45) NOT NULL,
     access_level VARCHAR(20) NOT NULL
+    
 );
 
 
@@ -106,7 +107,13 @@ insert into plans (plan_name,plan_burst_speed,plan_cost,plan_download_speed,plan
 insert into plans (plan_name,plan_burst_speed,plan_cost,plan_download_speed,plan_upload_speed)values('BRONZE','10GB/s',"$10,000","55555MB/s",'10,000MB/s');
 
 -- create user in user table
-insert into users (username,password,access_level) values ('admin',aes_encrypt('1234','osEpkGsvkk3ErQ0bTatcjq8T97njRuL04YLV0O6QG_c='),'admin');
+insert into users (username,password,access_level) values ('admin','1234','admin');
+
+
+
+
+insert into users (username,password,access_level) values ('david','1234','user');
+
 
 
 -- add suppliers
@@ -161,13 +168,8 @@ from employee_logins
 join employees on login_employee_id=employee_id
 join users on login_user_id=user_id;
 
+ insert into employee_logins (login_user_id,login_employee_id) values ("1","1");
 select * from employee_login;
 
-SELECT * FROM EMPLOYEE_LOGINs;
-
-SELECT user_id,USERNAME,EMPLOYEE_ID,employee_first_name,employee_last_name
-FROM EMPLOYEE_LOGINS
-JOIN users on login_user_id=user_id
-join employees on login_employee_id =employee_id;
-
 select * from users;
+
