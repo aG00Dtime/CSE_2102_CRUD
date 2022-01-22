@@ -274,15 +274,16 @@ class SupplierManager(Tk):
         ''')
 
         data = cur.fetchone()
-        if not data:
-            messagebox.showerror(title="!", message="No Results", parent=self.tab3)
-            return
 
         # clear boxes
         self.supplier_address_entry_tab_3.delete(0, END)
         self.supplier_name_entry_tab_3.delete(0, END)
         self.supplier_email_entry_tab_3.delete(0, END)
         self.supplier_telephone_entry_tab_3.delete(0, END)
+
+        if not data:
+            messagebox.showerror(title="!", message="No Results", parent=self.tab3)
+            return
 
         # insert
         self.supplier_name_entry_tab_3.insert(0, data[0])
@@ -354,6 +355,7 @@ class SupplierManager(Tk):
             db.commit()
             db.close()
 
+            # clear
             self.supplier_address_entry_tab_2.delete(0, END)
             self.supplier_name_entry_tab_2.delete(0, END)
             self.supplier_email_entry_tab_2.delete(0, END)
@@ -377,8 +379,10 @@ class SupplierManager(Tk):
         data = cur.fetchall()
         db.close()
 
+        #check
         if not data:
             messagebox.showerror(message="Table empty", title="ERROR")
+
         # close connection
         else:
             # clear out tree view

@@ -23,7 +23,8 @@ class HostWindow(tkinter.Tk):
         self.title("Host Configuration")
         # json
         self.json_path = os.path.join(root, 'host_config.json')
-
+        # icon
+        self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
         # decrypt key
         with open(os.path.join(root, 'k.key'), 'rb') as key:
             self.key = key.read()

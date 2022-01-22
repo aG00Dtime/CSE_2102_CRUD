@@ -202,6 +202,7 @@ class UserManager(Tk):
         messagebox.showinfo(title="Done", message="Success", parent=self.tab2)
 
     def query_update_user(self):
+        """UPDATE USER DETAILS"""
 
         user_id = self.search_user_id_entry_tab_3.get()
 
@@ -217,19 +218,23 @@ class UserManager(Tk):
         WHERE LOGIN_ID = '{user_id}'
         
         '''
-
+        # SQL QUERY
         cur.execute(sql)
-
-        data = cur.fetchone()
-
-        self.user_user_id_temp = data[0]
-        username = data[1]
-        access_level = data[2]
 
         # clear boxes
         self.user_access_level_tab_3.set(' ')
         self.user_username_tab_3_entry.delete(0, END)
         self.user_password_tab_3_entry.delete(0, END)
+
+        data = cur.fetchone()
+
+        if not data:
+            messagebox.showerror(message="No results", title="Error", parent=self.tab3)
+            return
+
+        self.user_user_id_temp = data[0]
+        username = data[1]
+        access_level = data[2]
 
         # insert user details
         self.user_access_level_tab_3.set(f'''{access_level.upper()}''')
@@ -286,6 +291,7 @@ class UserManager(Tk):
         # fetch data
         data = cur.fetchall()
 
+        # check if user found
         if not data:
             messagebox.showerror(message="Table empty", title="ERROR", parent=self.tab1)
 

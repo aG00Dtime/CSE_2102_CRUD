@@ -478,6 +478,11 @@ class EmployeeManager(Tk):
 
         rows = cur.fetchall()
 
+        # if no results
+        if not rows:
+            messagebox.showerror(message="No results", title="Error", parent=self.tab1)
+            return
+
         # add data the tree
         if 'admin' not in self.access_level:
             for column in rows:

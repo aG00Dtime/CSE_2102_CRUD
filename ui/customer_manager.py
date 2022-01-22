@@ -471,9 +471,13 @@ class CustomerManager(Tk):
             
                 ''')
 
-        #######################################################################################################
-
+        # get
         rows = cur.fetchall()
+
+        # check if any results were returned
+        if not rows:
+            messagebox.showerror(message="No results",title="Error",parent=self.tab1)
+            return
 
         # add data the tree
         for column in rows:
