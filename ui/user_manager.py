@@ -207,7 +207,7 @@ class UserManager(Tk):
         user_id = self.search_user_id_entry_tab_3.get()
 
         if not user_id:
-            messagebox.showerror(title="Error",message="Enter ID")
+            messagebox.showerror(title="Error",message="Enter ID",parent=self.tab3)
             return
 
         db = db_conn()
@@ -299,7 +299,7 @@ class UserManager(Tk):
 
         # check if user found
         if not data:
-            messagebox.showerror(message="Table empty", title="ERROR", parent=self.tab1)
+            messagebox.showerror(message="Table empty", title="ERROR", parent=self.tab3)
 
         # close connection
         else:

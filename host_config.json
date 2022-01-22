@@ -1,7 +1,7 @@
 {
-  "HOST": "localhost",
+  "HOST": "127.0.0.1",
   "USERNAME": "root",
   "PORT": "3306",
-  "PASSWORD": "gAAAAABh6LNAxH5VMTXwFicLByDlB6gnT6EiHM69FuyOIYoneJOfyydIxfVSKLv08gZtEB20_t0wWpnoYErJxApApefQYhkiJA==",
+  "PASSWORD": "gAAAAABh7BnnbaftkHraAlv4wxZzZd_I79niNcEXVmZNMUAUjLJNCo_iGRzhqpQ4OiaugEOyd9RKh5OA2C0o0jZRT-B92iYTLA==",
   "DATABASE": "ISP"
 }

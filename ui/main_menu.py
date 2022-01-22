@@ -19,25 +19,44 @@ class MainMenu(Tk):
         # pass user
         self.user = username
 
-        self.title("Menu")
+        self.title("SMJ Database Manager")
         self.resizable(False, False)
-        self.geometry(window_pos(400, 400))
+        self.geometry(window_pos(500, 500))
 
-        self.window_title = Label(self, text="Menu", font="ARIAL 16 bold").pack(pady=30)
+        self.window_title = Label(self, text="SMJ Manager", font="ARIAL 16 bold").pack(pady=20)
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         # buttons
-        self.customer_button = Button(self, text="Manage Customers", command=self.customer, width=40).pack(pady=(20, 0))
-        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(20, 0))
+        # customer
+        self.customer_label = Label(self, text="Customers", font="ARIAL 10 bold").pack()
+        self.customer_button = Button(self, text="Manage Customers", command=self.customer, width=40).pack(pady=(5, 20))
+
+        # employee
+        self.employee_label = Label(self, text="Employees", font="ARIAL 10 bold").pack()
+        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(5, 20))
+
+        # orders
+        self.order_label = Label(self, text="Orders", font="ARIAL 10 bold").pack()
+        self.order_button = Button(self, text="Manage Orders", width=40).pack(
+            pady=(5, 20))
+
+        # inventory
+        self.inventory_label = Label(self, text="Inventory", font="ARIAL 10 bold").pack()
+        self.inventory_button = Button(self, text="Manage Inventory", width=40).pack(
+            pady=(5, 20))
 
         if 'admin' in access_level:
-            self.supplier_button = Button(self, text="Manage Supplier", command=self.supplier, width=40).pack(
-                pady=(20, 0))
 
+            # suppliers
+            self.supplier_label = Label(self, text="Suppliers", font="ARIAL 10 bold").pack()
+            self.supplier_button = Button(self, text="Manage Suppliers", command=self.supplier, width=40).pack(
+                pady=(5, 20))
+            # users
+            self.users_label = Label(self, text="Database Users", font="ARIAL 10 bold").pack()
             self.users_button = Button(self, text="Manage Users", command=self.users, width=40).pack(
-                pady=(20, 0))
+                pady=(5, 20))
 
     def customer(self):
         open_customer_manager = CustomerManager(self.access, self.user)

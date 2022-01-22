@@ -81,6 +81,10 @@ class CustomerManager(Tk):
                                                                                                          column=1,
                                                                                                          pady=20,
                                                                                                          sticky=W)
+
+        # # enter key
+        # self.bind('<Return>', self.db_query)
+
         #
         self.tree = Treeview(self.tab1, height=15, show='headings')
 
@@ -92,6 +96,8 @@ class CustomerManager(Tk):
         self.scrollbar.grid(row=3, column=4, sticky="NS")
 
         self.tree.configure(yscrollcommand=self.scrollbar.set)
+
+        #
 
         # column headings
         if "admin" in access_level:
@@ -266,6 +272,9 @@ class CustomerManager(Tk):
         self.delete_button_tab_4 = Button(self.tab4, width=20, text="Search", command=self.delete_record).grid(row=1,
                                                                                                                column=1,
                                                                                                                pady=10)
+
+
+
 
     # delete a record
     def delete_record(self):
@@ -496,6 +505,7 @@ class CustomerManager(Tk):
 
     # submit
     def insert_customer(self):
+
         """INSERT CUSTOMER DETAILS"""
 
         # error list
