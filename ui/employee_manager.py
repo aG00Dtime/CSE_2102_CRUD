@@ -120,7 +120,7 @@ class EmployeeManager(Tk):
             self.tree.column('1', width=30)
             self.tree.column('2', width=80)
             self.tree.column('3', width=80)
-            self.tree.column('4', width=80)
+            self.tree.column('4', width=70)
 
             for i in range(8):
                 self.tree.column(str(i), anchor="center")
@@ -179,8 +179,24 @@ class EmployeeManager(Tk):
         self.designation_label_tab_2 = Label(self.tab2, text="Designation").grid(row=5, column=0, pady=10,
                                                                                  padx=(250, 20),
                                                                                  sticky=NW)
-        self.designation_entry_tab_2 = Entry(self.tab2, width=self.entry_width)
-        self.designation_entry_tab_2.grid(row=5, column=1, pady=10)
+        self.designation_entry_tab_2_combobox = Combobox(self.tab2, width=self.entry_width-3, state='readonly')
+
+        self.designation_entry_tab_2_combobox['values'] = [
+
+            "Office Manager",
+            "Executive Assistant",
+            "Senior Executive Assistant",
+            "Operations Manager",
+            "Service Administrator",
+            "Business Manager",
+            "Administrative Technician",
+            "Technician",
+            "Office Staff",
+            "Staff Assistant",
+            "Intern"
+        ]
+
+        self.designation_entry_tab_2_combobox.grid(row=5, column=1, pady=5)
 
         # nis
         self.nis_label_tab_2 = Label(self.tab2, text="NIS #").grid(row=6, column=0, pady=10, padx=(250, 20),
@@ -244,8 +260,23 @@ class EmployeeManager(Tk):
         self.designation_label_tab_3 = Label(self.tab3, text="Designation").grid(row=7, column=0, pady=10,
                                                                                  padx=(250, 20),
                                                                                  sticky=NW)
-        self.designation_entry_tab_3 = Entry(self.tab3, width=self.entry_width)
-        self.designation_entry_tab_3.grid(row=7, column=1, pady=10)
+
+        self.designation_entry_tab_3_combobox = Combobox(self.tab3, width=self.entry_width-3, state='readonly')
+        self.designation_entry_tab_3_combobox['values'] = [
+
+            "Office Manager",
+            "Executive Assistant",
+            "Senior Executive Assistant",
+            "Operations Manager",
+            "Service Administrator",
+            "Business Manager",
+            "Administrative Technician",
+            "Technician",
+            "Office Staff",
+            "Staff Assistant",
+            "Intern"
+        ]
+        self.designation_entry_tab_3_combobox.grid(row=7, column=1, pady=5)
 
         # nis
         self.nis_label_tab_3 = Label(self.tab3, text="NIS #").grid(row=8, column=0, pady=10, padx=(250, 20),
@@ -344,7 +375,7 @@ class EmployeeManager(Tk):
         self.email_entry_tab_3.delete(0, END)
         self.address1_entry_tab_3.delete(0, END)
         self.phone_entry_tab_3.delete(0, END)
-        self.designation_entry_tab_3.delete(0, END)
+        self.designation_entry_tab_3_combobox.set(" ")
         self.nis_entry_tab_3.delete(0, END)
 
         # insert
@@ -353,7 +384,7 @@ class EmployeeManager(Tk):
         self.phone_entry_tab_3.insert(0, tele)
         self.email_entry_tab_3.insert(0, email)
         self.address1_entry_tab_3.insert(0, address)
-        self.designation_entry_tab_3.insert(0, designation)
+        self.designation_entry_tab_3_combobox.set(f"{designation}")
         self.nis_entry_tab_3.insert(0, nis)
 
     def update_record(self):
@@ -395,7 +426,8 @@ class EmployeeManager(Tk):
         if not address1:
             error_list.append("Ensure Address is filled in")
         # des
-        designation = self.designation_entry_tab_3.get()
+        designation = self.designation_entry_tab_3_combobox.get()
+
         if not designation:
             error_list.append("Designation Missing")
 
@@ -442,7 +474,7 @@ class EmployeeManager(Tk):
             self.email_entry_tab_3.delete(0, END)
             self.address1_entry_tab_3.delete(0, END)
             self.phone_entry_tab_3.delete(0, END)
-            self.designation_entry_tab_3.delete(0, END)
+            self.designation_entry_tab_3_combobox.set(" ")
             self.nis_entry_tab_3.delete(0, END)
 
             # show success message
@@ -543,7 +575,7 @@ class EmployeeManager(Tk):
             error_list.append("Ensure Address is filled in")
 
         # des
-        designation = self.designation_entry_tab_2.get()
+        designation = self.designation_entry_tab_2_combobox.get()
         if not designation:
             error_list.append("Designation Missing")
 
@@ -600,7 +632,7 @@ class EmployeeManager(Tk):
             self.email_entry_tab_2.delete(0, END)
             self.address1_entry_tab_2.delete(0, END)
             self.phone_entry_tab_2.delete(0, END)
-            self.designation_entry_tab_2.delete(0, END)
+            self.designation_entry_tab_2_combobox.set(" ")
             self.nis_entry_tab_2.delete(0, END)
 
             # show success message

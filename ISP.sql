@@ -172,4 +172,7 @@ join users on login_user_id=user_id;
 select * from employee_login;
 
 select * from users;
+select * from employee_logins;
 
+delete from employee_logins where login_user_id = "4";
+delete  from users where user_id = "4";

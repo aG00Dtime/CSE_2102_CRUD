@@ -7,7 +7,7 @@ from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
-
+from ui.order_manager import OrderManager
 root = os.path.abspath(os.curdir)
 
 
@@ -39,7 +39,7 @@ class MainMenu(Tk):
 
         # orders
         self.order_label = Label(self, text="Orders", font="ARIAL 10 bold").pack()
-        self.order_button = Button(self, text="Manage Orders", width=40).pack(
+        self.order_button = Button(self, text="Manage Orders", width=40,command=self.orders).pack(
             pady=(5, 20))
 
         # inventory
@@ -69,3 +69,6 @@ class MainMenu(Tk):
 
     def users(self):
         open_user_manager = UserManager(self.access, self.user)
+
+    def orders(self):
+        open_order_manager=OrderManager(self.access,self.user)
