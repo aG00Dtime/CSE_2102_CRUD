@@ -310,6 +310,14 @@ class CustomerManager(Tk):
 
         record = cur.fetchone()
 
+        # clear entry boxes before inserting new data
+        self.first_name_entry_tab_3.delete(0, END)
+        self.last_name_entry_tab_3.delete(0, END)
+        self.email_entry_tab_3.delete(0, END)
+        self.address1_entry_tab_3.delete(0, END)
+        self.phone_entry_tab_3.delete(0, END)
+        self.customer_plan_tab_3.set(' ')
+
         if not record:
             messagebox.showerror(message="Record not found", parent=self.tab3)
             return
@@ -322,14 +330,6 @@ class CustomerManager(Tk):
         address = record[5]
         # -1 to set the right id
         plan_id = int(record[6]) - 1
-
-        # clear entry boxes before inserting new data
-        self.first_name_entry_tab_3.delete(0, END)
-        self.last_name_entry_tab_3.delete(0, END)
-        self.email_entry_tab_3.delete(0, END)
-        self.address1_entry_tab_3.delete(0, END)
-        self.phone_entry_tab_3.delete(0, END)
-        self.customer_plan_tab_3.set(' ')
 
         # insert
         self.first_name_entry_tab_3.insert(0, first_name)
@@ -471,12 +471,13 @@ class CustomerManager(Tk):
             
                 ''')
 
+        #######################################################################################################
         # get
         rows = cur.fetchall()
 
         # check if any results were returned
         if not rows:
-            messagebox.showerror(message="No results",title="Error",parent=self.tab1)
+            messagebox.showerror(message="No results", title="Error", parent=self.tab1)
             return
 
         # add data the tree
