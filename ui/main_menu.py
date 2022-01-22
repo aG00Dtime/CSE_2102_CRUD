@@ -5,9 +5,10 @@ from tkinter.ttk import *
 from funcs.window_position import window_pos
 from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
+from ui.order_manager import OrderManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
-from ui.order_manager import OrderManager
+
 root = os.path.abspath(os.curdir)
 
 
