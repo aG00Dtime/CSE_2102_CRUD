@@ -9,6 +9,7 @@ from ui.inventory_manager import InventoryManager
 from ui.order_manager import OrderManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
+from ui.plan_manager import PlanManager
 
 root = os.path.abspath(os.curdir)
 
@@ -23,7 +24,7 @@ class MainMenu(Tk):
 
         self.title("SMJ Database Manager")
         self.resizable(False, False)
-        self.geometry(window_pos(500, 500))
+        self.geometry(window_pos(400, 590))
 
         self.window_title = Label(self, text="SMJ Manager", font="ARIAL 16 bold").pack(pady=20)
 
@@ -55,6 +56,11 @@ class MainMenu(Tk):
             pady=(5, 20))
 
         if 'admin' in access_level:
+            # plans
+            self.plans_label = Label(self, text="Subscription Plans", font="ARIAL 10 bold").pack()
+            self.plans_label_button = Button(self, text="Manage Subscriptions Plans", command=self.plans,
+                                             width=40).pack(pady=(5, 20))
+
             # users
             self.users_label = Label(self, text="Database Users", font="ARIAL 10 bold").pack()
             self.users_button = Button(self, text="Manage Users", command=self.users, width=40).pack(
@@ -77,3 +83,6 @@ class MainMenu(Tk):
 
     def inventory(self):
         open_inventory_manager = InventoryManager(self.access, self.user)
+
+    def plans(self):
+        open_plans = PlanManager(self.access, self.user)

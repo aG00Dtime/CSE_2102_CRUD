@@ -20,14 +20,16 @@ class CustomerManager(Tk):
 
         self.resizable(False, False)
 
+        # window_title
+        self.window_title = Label(self, text="Customer Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
+
         self.user = username
         self.access_level = access_level
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
-        # window_title
-        self.window_title = Label(self, text="Customer Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
+
 
         # create notebook to hold tabs
         self.tabs = Notebook(self)
