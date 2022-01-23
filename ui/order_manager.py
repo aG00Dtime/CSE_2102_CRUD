@@ -71,7 +71,7 @@ class OrderManager(Tk):
         self.tree.column("1", anchor=E, width=50)
 
         for i in range(2, 8):
-            self.tree.column(str(i), width=132, anchor=CENTER)
+            self.tree.column(str(i), width=132, anchor=E)
 
         # tab 2 ####################################################################################################
 
@@ -129,7 +129,7 @@ class OrderManager(Tk):
         cur.execute(""" 
         select device_id,device_name
         from INVENTORY WHERE device_id NOT IN 
-        (SELECT INVENTORY_DEVICE_ID FROM CUSTOMER_INVENTORY)  """)
+        (SELECT INVENTORY_DEVICE_ID FROM CUSTOMER_INVENTORY) ORDER BY DEVICE_NAME  """)
 
         devices_available = cur.fetchall()
         db.close()

@@ -123,7 +123,7 @@ class EmployeeManager(Tk):
             self.tree.column('4', width=70)
 
             for i in range(8):
-                self.tree.column(str(i), anchor="center")
+                self.tree.column(str(i), anchor=E)
 
             for i in range(5, 8):
                 self.tree.column(str(i), width=180)
@@ -140,7 +140,7 @@ class EmployeeManager(Tk):
             self.tree.column('9', width=100)
 
             for i in range(10):
-                self.tree.column(str(i), anchor="center")
+                self.tree.column(str(i), anchor=E)
 
         # TAB 2 #######################################################################################################
         # width of entry boxes

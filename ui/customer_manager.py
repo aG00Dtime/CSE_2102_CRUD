@@ -131,7 +131,7 @@ class CustomerManager(Tk):
             self.tree.column('4', width=80)
 
             for i in range(8):
-                self.tree.column(str(i), anchor="center")
+                self.tree.column(str(i), anchor=E)
 
             for i in range(5, 8):
                 self.tree.column(str(i), width=240)
@@ -147,7 +147,7 @@ class CustomerManager(Tk):
             self.tree.column('8', width=100)
 
             for i in range(9):
-                self.tree.column(str(i), anchor="center")
+                self.tree.column(str(i), anchor=E)
 
         # TAB 2 #######################################################################################################
         # width of entry boxes

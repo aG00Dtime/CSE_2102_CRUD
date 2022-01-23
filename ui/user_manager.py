@@ -81,8 +81,8 @@ class UserManager(Tk):
         self.tree.column('5', width=180)
 
         # center tree data
-        for i in range(5):
-            self.tree.column(str(i), anchor="center")
+        for i in range(6):
+            self.tree.column(str(i), anchor=E)
 
         self.tree.grid(row=3, column=0, columnspan=4, padx=(10, 0))
 

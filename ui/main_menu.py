@@ -8,6 +8,7 @@ from ui.employee_manager import EmployeeManager
 from ui.order_manager import OrderManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
+from ui.inventory_manager import InventoryManager
 
 root = os.path.abspath(os.curdir)
 
@@ -40,16 +41,15 @@ class MainMenu(Tk):
 
         # orders
         self.order_label = Label(self, text="Orders", font="ARIAL 10 bold").pack()
-        self.order_button = Button(self, text="Manage Orders", width=40,command=self.orders).pack(
+        self.order_button = Button(self, text="Manage Orders", width=40, command=self.orders).pack(
             pady=(5, 20))
 
         # inventory
         self.inventory_label = Label(self, text="Inventory", font="ARIAL 10 bold").pack()
-        self.inventory_button = Button(self, text="Manage Inventory", width=40).pack(
+        self.inventory_button = Button(self, text="Manage Inventory", width=40,command=self.inventory).pack(
             pady=(5, 20))
 
         if 'admin' in access_level:
-
             # suppliers
             self.supplier_label = Label(self, text="Suppliers", font="ARIAL 10 bold").pack()
             self.supplier_button = Button(self, text="Manage Suppliers", command=self.supplier, width=40).pack(
@@ -72,4 +72,7 @@ class MainMenu(Tk):
         open_user_manager = UserManager(self.access, self.user)
 
     def orders(self):
-        open_order_manager=OrderManager(self.access,self.user)
+        open_order_manager = OrderManager(self.access, self.user)
+
+    def inventory(self):
+        open_inventory_manager = InventoryManager(self.access, self.user)
