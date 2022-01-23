@@ -325,7 +325,7 @@ class EmployeeManager(Tk):
             confirm = messagebox.askokcancel(title="DELETE RECORD?", message=record_exist, parent=self.tab4)
 
             if confirm:
-                cur.execute(f'''delete from employee where employee_id='{employee_id}' ''')
+                cur.execute(f'''delete from employees where employee_id='{employee_id}' ''')
                 db.commit()
 
                 messagebox.showinfo(message="Record Deleted", parent=self.tab4)

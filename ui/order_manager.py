@@ -160,6 +160,7 @@ class OrderManager(Tk):
 
         db.close()
 
+        order_num = f'''Order #: {order_id}'''
         name = f''' Customer name : {invoice[1]} {invoice[2]} '''
         address = f''' Address: {invoice[3]} '''
         plan = f'''Subscription Plan: {invoice[4]} '''
@@ -173,16 +174,20 @@ class OrderManager(Tk):
         pdf.set_font('helvetica', '', 16)
 
         pdf.cell(200, 20, "SMJ CUSTOMER INVOICE", ln=1, align="C")
-        pdf.line(20, 30, 210 - 20, 30)
+        pdf.line(5, 30, 210 - 5, 30)
 
-        pdf.cell(200, 20, name, ln=1, align="l")
-        pdf.cell(20, 20, address, ln=1, align="l")
-        pdf.cell(20, 20, plan, ln=1, align="l")
+        pdf.cell(200, 20, order_num, ln=1, align="l")
+        pdf.cell(100, 20, name, ln=1, align="l")
+        pdf.cell(100, 20, address, ln=1, align="l")
+        pdf.cell(100, 20, plan, ln=1, align="l")
+
+        pdf.line(5, 110, 210 - 5, 110)
         pdf.cell(100, 20, device, ln=1, align="l")
-
         pdf.cell(100, 20, device_serial_number, ln=1, align="l")
 
+        pdf.line(5, 150, 210 - 5, 150)
         pdf.cell(100, 20, total, ln=1, align="l")
+        pdf.line(5, 180, 210 - 5, 180)
 
         save_dir = askdirectory(parent=self.tab4)
 
