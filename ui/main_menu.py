@@ -49,11 +49,12 @@ class MainMenu(Tk):
         self.inventory_button = Button(self, text="Manage Inventory", width=40, command=self.inventory).pack(
             pady=(5, 20))
 
+        # suppliers
+        self.supplier_label = Label(self, text="Suppliers", font="ARIAL 10 bold").pack()
+        self.supplier_button = Button(self, text="Manage Suppliers", command=self.supplier, width=40).pack(
+            pady=(5, 20))
+
         if 'admin' in access_level:
-            # suppliers
-            self.supplier_label = Label(self, text="Suppliers", font="ARIAL 10 bold").pack()
-            self.supplier_button = Button(self, text="Manage Suppliers", command=self.supplier, width=40).pack(
-                pady=(5, 20))
             # users
             self.users_label = Label(self, text="Database Users", font="ARIAL 10 bold").pack()
             self.users_button = Button(self, text="Manage Users", command=self.users, width=40).pack(

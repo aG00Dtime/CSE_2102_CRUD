@@ -23,7 +23,7 @@ class InventoryManager(Tk):
         self.username = username
 
         # icon
-        # self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
+        self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         self.window_title = Label(self, text="Inventory Manager", font="ARIAL 16 bold").grid(pady=(20, 20))
 
@@ -63,7 +63,82 @@ class InventoryManager(Tk):
             self.tree.column(str(i), anchor=W)
 
         self.device_list = Button(self.tab1, text="View Available Devices List", width=40, command=self.get_devices)
-        self.device_list.grid(row=0)
+        self.device_list.grid(row=0, padx=(270, 0), pady=30)
+
+        # tab 2 ###################################################################################################
+
+        self.device_name = Label(self.tab2, text="Device Name").grid(row=0, column=0, pady=(20, 5), padx=(220, 0))
+        self.device_name_combobox = Combobox(self.tab2, state='readonly', width=40)
+
+        self.device_name_combobox['values'] = ['Switch', 'Router', 'Modem', 'Repeater', 'Access Point', 'Antenna']
+        self.device_name_combobox.grid(row=0, column=1, pady=(20, 5))
+
+        self.supplier_name = Label(self.tab2, text="Supplier").grid(row=1, column=0, pady=(20, 5), padx=(220, 0))
+        self.supplier_combobox = Combobox(self.tab2, state='readonly', width=40)
+        self.supplier_combobox['values'] = self.get_suppliers()
+        self.supplier_combobox.grid(row=1, column=1, pady=(20, 5))
+
+        self.device_description = Label(self.tab2, text="Description").grid(row=2, column=0, pady=(20, 5),
+                                                                            padx=(220, 0))
+        self.device_description_entry = Entry(self.tab2, width=42)
+        self.device_description_entry.grid(row=2, column=1, pady=(20, 5))
+
+        self.device_serial = Label(self.tab2, text="Serial Number").grid(row=3, column=0, pady=(20, 5),
+                                                                         padx=(220, 0))
+        self.device_serial_number_entry = Entry(self.tab2, width=42)
+        self.device_serial_number_entry.grid(row=3, column=1, pady=(20, 5))
+
+        self.add_device_button = Button(self.tab2, width=38, text="Add Device", command=self.add_device).grid(row=4,
+                                                                                                              column=1,
+                                                                                                              pady=(
+                                                                                                                  20, 5
+                                                                                                              ))
+
+        ############################################################################################################
+
+    def add_device(self):
+
+        device_name = self.device_name_combobox.get()
+        device_serial_number = self.device_serial_number_entry.get()
+        device_supplier = self.supplier_combobox.get()
+        device_description = self.device_description_entry.get()
+
+        if not device_name or not device_supplier or not device_description or not device_serial_number.isnumeric():
+            messagebox.showerror(title="Error", message="Ensure All fields are filled in and correct", parent=self.tab2)
+            return
+
+        supplier_id, supplier = device_supplier.split()
+
+        self.device_description_entry.delete(0, END)
+        self.device_serial_number_entry.delete(0, END)
+        self.supplier_combobox.set(" ")
+        self.device_name_combobox.set(" ")
+
+        db = db_conn()
+        cur = db.cursor()
+
+        cur.execute(f"""   
+            INSERT INTO INVENTORY
+            (DEVICE_NAME,DEVICE_SERIAL_NUMBER,DEVICE_DESCRIPTION,SUPPLIER_ID)
+            VALUES('{device_name}','{device_serial_number}','{device_description.lower()}','{supplier_id}')
+            """)
+
+        db.commit()
+        db.close()
+
+        messagebox.showinfo(title="Success", message="Added New Device", parent=self.tab2)
+
+    def get_suppliers(self):
+        db = db_conn()
+        cur = db.cursor()
+
+        cur.execute("SELECT SUPPLIER_ID,SUPPLIER_NAME FROM SUPPLIERS")
+
+        suppliers = cur.fetchall()
+        if not suppliers:
+            messagebox.showerror(title="Error", message="No results to display", parent=self.tab2)
+            return
+        return suppliers
 
     def get_devices(self):
 
