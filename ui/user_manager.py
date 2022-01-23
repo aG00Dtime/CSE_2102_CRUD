@@ -207,7 +207,7 @@ class UserManager(Tk):
         user_id = self.search_user_id_entry_tab_3.get()
 
         if not user_id:
-            messagebox.showerror(title="Error",message="Enter ID",parent=self.tab3)
+            messagebox.showerror(title="Error", message="Enter ID", parent=self.tab3)
             return
 
         db = db_conn()

@@ -39,8 +39,6 @@ class HostWindow(tkinter.Tk):
         self.l_style = "Arial 14"
         self.e_style = "Arial 11"
 
-
-
         # host address
         self.host_address = Label(self, font=self.l_style, text="Host Address").pack(pady=(20, 0))
         self.host_address_entry = Entry(self, width=25, font=self.e_style)
@@ -126,7 +124,7 @@ class HostWindow(tkinter.Tk):
 
         # check if details are valid
         db_check = funcs.connector.db_conn()
-
+        # print(type(db_check))
         if type(db_check) == mysql.connection.MySQLConnection:
 
             tkinter.messagebox.showinfo(message="Host configuration saved!", title="Success", parent=self)
