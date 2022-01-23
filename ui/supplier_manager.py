@@ -379,7 +379,7 @@ class SupplierManager(Tk):
         data = cur.fetchall()
         db.close()
 
-        #check
+        # check
         if not data:
             messagebox.showerror(message="Table empty", title="ERROR")
 

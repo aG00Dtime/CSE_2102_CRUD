@@ -1,13 +1,13 @@
 import os
-from fpdf import FPDF
-
 from tkinter import *
 from tkinter import messagebox
+from tkinter.filedialog import askdirectory
 from tkinter.ttk import *
+
+from fpdf import FPDF
 
 from funcs.connector import db_conn
 from funcs.window_position import window_pos
-from tkinter.filedialog import askdirectory
 
 root = os.path.abspath(os.curdir)
 

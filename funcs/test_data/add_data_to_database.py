@@ -95,7 +95,6 @@ with open('devices.json', 'r') as devices:
         device_desc = device['description']
         device_supplier = random.randint(14, 22)
 
-
         sql = f""" INSERT INTO DEVICES (DEVICE_NAME,DEVICE_SERIAL_NUMBER,DEVICE_DESCRIPTION,SUPPLIER_ID)
         VALUES ('{device_name}','{device_serial}','{device_desc}','{device_supplier}')
 

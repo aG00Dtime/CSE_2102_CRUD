@@ -179,7 +179,7 @@ class EmployeeManager(Tk):
         self.designation_label_tab_2 = Label(self.tab2, text="Designation").grid(row=5, column=0, pady=10,
                                                                                  padx=(250, 20),
                                                                                  sticky=NW)
-        self.designation_entry_tab_2_combobox = Combobox(self.tab2, width=self.entry_width-3, state='readonly')
+        self.designation_entry_tab_2_combobox = Combobox(self.tab2, width=self.entry_width - 3, state='readonly')
 
         self.designation_entry_tab_2_combobox['values'] = [
 
@@ -261,7 +261,7 @@ class EmployeeManager(Tk):
                                                                                  padx=(250, 20),
                                                                                  sticky=NW)
 
-        self.designation_entry_tab_3_combobox = Combobox(self.tab3, width=self.entry_width-3, state='readonly')
+        self.designation_entry_tab_3_combobox = Combobox(self.tab3, width=self.entry_width - 3, state='readonly')
         self.designation_entry_tab_3_combobox['values'] = [
 
             "Office Manager",

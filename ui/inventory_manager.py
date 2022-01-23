@@ -8,8 +8,6 @@ from funcs.window_position import window_pos
 
 root = os.path.abspath(os.curdir)
 
-import random
-
 
 class InventoryManager(Tk):
     def __init__(self, access_level, username):

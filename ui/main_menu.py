@@ -5,10 +5,10 @@ from tkinter.ttk import *
 from funcs.window_position import window_pos
 from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
+from ui.inventory_manager import InventoryManager
 from ui.order_manager import OrderManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
-from ui.inventory_manager import InventoryManager
 
 root = os.path.abspath(os.curdir)
 
@@ -46,7 +46,7 @@ class MainMenu(Tk):
 
         # inventory
         self.inventory_label = Label(self, text="Inventory", font="ARIAL 10 bold").pack()
-        self.inventory_button = Button(self, text="Manage Inventory", width=40,command=self.inventory).pack(
+        self.inventory_button = Button(self, text="Manage Inventory", width=40, command=self.inventory).pack(
             pady=(5, 20))
 
         if 'admin' in access_level:

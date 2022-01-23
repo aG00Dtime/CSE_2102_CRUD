@@ -6,9 +6,9 @@ from tkinter import *
 from tkinter.ttk import *
 
 import funcs.connector
-from ui.set_host_window import HostWindow
 from funcs.window_position import window_pos
 from ui.main_menu import MainMenu
+from ui.set_host_window import HostWindow
 
 root = os.path.abspath(os.curdir)
 

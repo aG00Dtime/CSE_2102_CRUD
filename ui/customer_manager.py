@@ -273,9 +273,6 @@ class CustomerManager(Tk):
                                                                                                                column=1,
                                                                                                                pady=10)
 
-
-
-
     # delete a record
     def delete_record(self):
 

@@ -1,10 +1,62 @@
-[{"company":"Podcat","address":"536 West Junction","phone":"298-642-3344","email":"abonifant0@spotify.com"},
-{"company":"Realpoint","address":"2196 Badeau Circle","phone":"582-992-6144","email":"brising1@wikispaces.com"},
-{"company":"Eidel","address":"997 Cambridge Pass","phone":"119-457-7641","email":"wummfrey2@cnbc.com"},
-{"company":"Rhyloo","address":"6056 Scott Center","phone":"473-897-3270","email":"iburry3@networkadvertising.org"},
-{"company":"Jatri","address":"3 Springs Lane","phone":"176-111-6624","email":"hmace4@patch.com"},
-{"company":"Shuffledrive","address":"88 Dayton Plaza","phone":"696-699-7692","email":"rdelgardo5@macromedia.com"},
-{"company":"Omba","address":"3 Boyd Drive","phone":"838-796-8782","email":"ecoste6@ox.ac.uk"},
-{"company":"Meembee","address":"00265 Summer Ridge Pass","phone":"968-194-0866","email":"jnicholes7@printfriendly.com"},
-{"company":"Zoomdog","address":"5 Mendota Parkway","phone":"703-978-3680","email":"cvalero8@blogger.com"},
-{"company":"Flipopia","address":"630 Vernon Drive","phone":"592-148-3370","email":"dsevitt9@creativecommons.org"}]
+[
+  {
+    "company": "Podcat",
+    "address": "536 West Junction",
+    "phone": "298-642-3344",
+    "email": "abonifant0@spotify.com"
+  },
+  {
+    "company": "Realpoint",
+    "address": "2196 Badeau Circle",
+    "phone": "582-992-6144",
+    "email": "brising1@wikispaces.com"
+  },
+  {
+    "company": "Eidel",
+    "address": "997 Cambridge Pass",
+    "phone": "119-457-7641",
+    "email": "wummfrey2@cnbc.com"
+  },
+  {
+    "company": "Rhyloo",
+    "address": "6056 Scott Center",
+    "phone": "473-897-3270",
+    "email": "iburry3@networkadvertising.org"
+  },
+  {
+    "company": "Jatri",
+    "address": "3 Springs Lane",
+    "phone": "176-111-6624",
+    "email": "hmace4@patch.com"
+  },
+  {
+    "company": "Shuffledrive",
+    "address": "88 Dayton Plaza",
+    "phone": "696-699-7692",
+    "email": "rdelgardo5@macromedia.com"
+  },
+  {
+    "company": "Omba",
+    "address": "3 Boyd Drive",
+    "phone": "838-796-8782",
+    "email": "ecoste6@ox.ac.uk"
+  },
+  {
+    "company": "Meembee",
+    "address": "00265 Summer Ridge Pass",
+    "phone": "968-194-0866",
+    "email": "jnicholes7@printfriendly.com"
+  },
+  {
+    "company": "Zoomdog",
+    "address": "5 Mendota Parkway",
+    "phone": "703-978-3680",
+    "email": "cvalero8@blogger.com"
+  },
+  {
+    "company": "Flipopia",
+    "address": "630 Vernon Drive",
+    "phone": "592-148-3370",
+    "email": "dsevitt9@creativecommons.org"
+  }
+]
