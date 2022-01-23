@@ -6,7 +6,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 import funcs.connector
-import ui.set_host_window
+from ui.set_host_window import HostWindow
 from funcs.window_position import window_pos
 from ui.main_menu import MainMenu
 
@@ -103,7 +103,11 @@ class LoginWindow(tk.Tk):
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
         # button function
-        self.host_label = Button(self, text="configure host", command=ui.set_host_window.HostWindow).pack(pady=(20, 0))
+        self.host_label = Button(self, text="configure host", command=self.host_config).pack(pady=(20, 0))
+
+    @staticmethod
+    def host_config():
+        host_config = HostWindow()
 
     def clicked(self):
 

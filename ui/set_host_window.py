@@ -22,6 +22,10 @@ class HostWindow(tkinter.Tk):
         # title
         self.title("Host Configuration")
         # json
+        # size and window pos
+        self.geometry(window_pos(300, 400))
+        # resize
+        self.resizable(False, False)
         self.json_path = os.path.join(root, 'host_config.json')
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
@@ -31,15 +35,11 @@ class HostWindow(tkinter.Tk):
 
         self.f = Fernet(self.key)
 
-        # size and window pos
-        self.geometry(window_pos(300, 400))
-
         # font
         self.l_style = "Arial 14"
         self.e_style = "Arial 11"
 
-        # resize
-        self.resizable(False, False)
+
 
         # host address
         self.host_address = Label(self, font=self.l_style, text="Host Address").pack(pady=(20, 0))
