@@ -16,7 +16,7 @@ class CustomerManager(Tk):
 
         self.title("Customers Manager")
 
-        self.geometry(window_pos(1024, 630))
+        self.geometry(window_pos(1020, 590))
 
         self.resizable(False, False)
 
@@ -382,9 +382,9 @@ class CustomerManager(Tk):
                     number_check[index] = True
 
             if not all(number_check):
-                error_list.append("Invalid Phone Number,Number must be 7 digits")
+                error_list.append("Invalid Phone Number")
         else:
-            error_list.append("Invalid Phone Number,Number must be 7 digits")
+            error_list.append("Invalid Phone Number")
 
         # get list of errors to display
 

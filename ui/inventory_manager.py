@@ -142,6 +142,7 @@ class InventoryManager(Tk):
 
     def get_devices(self):
 
+        self.tree.delete(*self.tree.get_children())
         db = db_conn()
         cur = db.cursor()
 
