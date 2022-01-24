@@ -39,7 +39,8 @@ class PlanManager(Tk):
 
         self.get_plans_button = Button(self.tab1, text="View Plans", command=self.get_plans, width=50).grid(row=0,
                                                                                                             pady=20,
-                                                                                                            padx=(260,0)
+                                                                                                            padx=(
+                                                                                                                260, 0)
                                                                                                             )
 
         self.tree = Treeview(self.tab1, height=20, show='headings')
@@ -66,6 +67,8 @@ class PlanManager(Tk):
 
         for i in range(2, 7):
             self.tree.column(str(i), width=170, anchor=W)
+
+    # TAB 2 #######################################################################################################
 
     def get_plans(self):
 

@@ -47,6 +47,7 @@ class UserManager(Tk):
         self.tabs.add(self.tab1, text="User List")
         self.tabs.add(self.tab2, text="Add User")
         self.tabs.add(self.tab3, text="Update User")
+        self.tabs.add(self.tab4, text="Delete User")
 
         self.tabs.grid()
 
@@ -153,6 +154,21 @@ class UserManager(Tk):
                                                width=self.entry_box_width)
         self.insert_user_button_tab_3.grid(row=6, column=1, pady=5)
 
+        # tab 4 #############################################################################################
+        self.user_id_entry_tab_4_label = Label(self.tab4, text="User ID").grid(row=0, column=0,
+                                                                               pady=(50, 0), padx=(160, 20),
+                                                                               sticky=NW)
+        # employee id
+        self.user_id_entry_tab_4 = Entry(self.tab4, width=40)
+        self.user_id_entry_tab_4.grid(row=0, column=1, pady=(50, 0))
+
+        # button
+        self.delete_button_tab_4 = Button(self.tab4, width=40, text="Delete", command=self.delete_user).grid(row=1,
+                                                                                                             column=1,
+                                                                                                             pady=10)
+
+        ####################################################################################################
+
     def insert_users(self):
 
         """INSERT NEW USER LOGIN"""
@@ -170,6 +186,14 @@ class UserManager(Tk):
         db = db_conn()
         cur = db.cursor()
 
+        cur.execute(F"""SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE EMPLOYEE_ID ={employee_id} """)
+
+        exists = cur.fetchone()
+
+        if not exists:
+            messagebox.showerror(title="Error", message="Employee Does not exist", parent=self.tab2)
+            db.close()
+            return
         # SQL
         # INSERT INTO USERS TABLE AND ENCRYPT PASSWORDS USING AES ENCRYPTION
         cur.execute(f'''
@@ -200,6 +224,31 @@ class UserManager(Tk):
 
         # done message
         messagebox.showinfo(title="Done", message="Success", parent=self.tab2)
+        ###########################################################################################################
+
+    def delete_user(self):
+        user_id = self.user_id_entry_tab_4.get()
+
+        if not user_id:
+            messagebox.showerror(message="Enter User ID", parent=self.tab4, title="Error")
+            return
+
+        db = db_conn()
+        cur = db.cursor()
+
+        cur.execute(F"""SELECT USER_ID FROM USERS WHERE USER_ID ='{user_id}' """)
+
+        user = cur.fetchone()
+
+        if not user:
+            messagebox.showerror(message="User not found", parent=self.tab4, title="Error")
+            db.close()
+            return
+
+        cur.execute(F""" DELETE FROM USERS WHERE USER_ID = '{user_id}' """)
+        db.commit()
+        db.close()
+        messagebox.showinfo(title="Done", message="User deleted", parent=self.tab4)
 
     def query_update_user(self):
         """UPDATE USER DETAILS"""
@@ -297,9 +346,12 @@ class UserManager(Tk):
         # fetch data
         data = cur.fetchall()
 
+        # clear out tree view
+        self.tree.delete(*self.tree.get_children())
+
         # check if user found
         if not data:
-            messagebox.showerror(message="Table empty", title="ERROR", parent=self.tab3)
+            messagebox.showerror(message="No results", title="ERROR", parent=self.tab3)
 
         # close connection
         else:

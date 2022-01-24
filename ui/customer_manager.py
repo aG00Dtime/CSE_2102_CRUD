@@ -29,8 +29,6 @@ class CustomerManager(Tk):
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
 
-
-
         # create notebook to hold tabs
         self.tabs = Notebook(self)
 
