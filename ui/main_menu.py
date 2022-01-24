@@ -2,6 +2,7 @@ import os
 from tkinter import *
 from tkinter.ttk import *
 
+from funcs.reports_generator import report
 from funcs.window_position import window_pos
 from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
@@ -28,7 +29,7 @@ class MainMenu(Tk):
         self.resizable(False, False)
         self.geometry(window_pos(500, 600))
 
-        self.window_title = Label(self, text="SMJ Manager", font="ARIAL 16 bold").pack(pady=20)
+        self.window_title = Label(self, text="SMJ Manager", font="ARIAL 16 bold").pack(pady=10)
 
         # icon
         self.iconbitmap(os.path.join(root, 'assets', 'icon.ico'))
@@ -36,37 +37,42 @@ class MainMenu(Tk):
         # buttons
         # customer
         self.customer_label = Label(self, text="Customers", font="ARIAL 10 bold").pack()
-        self.customer_button = Button(self, text="Manage Customers", command=self.customer, width=40).pack(pady=(5, 20))
+        self.customer_button = Button(self, text="Manage Customers", command=self.customer, width=40).pack(pady=(5, 10))
 
         # employee
         self.employee_label = Label(self, text="Employees", font="ARIAL 10 bold").pack()
-        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(5, 20))
+        self.employee_button = Button(self, text="Manage Employees", command=self.employee, width=40).pack(pady=(5, 10))
 
         # orders
         self.order_label = Label(self, text="Orders", font="ARIAL 10 bold").pack()
         self.order_button = Button(self, text="Manage Orders", width=40, command=self.orders).pack(
-            pady=(5, 20))
+            pady=(5, 10))
 
         # inventory
         self.inventory_label = Label(self, text="Inventory", font="ARIAL 10 bold").pack()
         self.inventory_button = Button(self, text="Manage Inventory", width=40, command=self.inventory).pack(
-            pady=(5, 20))
+            pady=(5, 10))
 
         # suppliers
         self.supplier_label = Label(self, text="Suppliers", font="ARIAL 10 bold").pack()
         self.supplier_button = Button(self, text="Manage Suppliers", command=self.supplier, width=40).pack(
-            pady=(5, 20))
+            pady=(5, 10))
 
         if 'admin' in access_level:
             # plans
             self.plans_label = Label(self, text="Subscription Plans", font="ARIAL 10 bold").pack()
             self.plans_label_button = Button(self, text="Manage Subscriptions Plans", command=self.plans,
-                                             width=40).pack(pady=(5, 20))
+                                             width=40).pack(pady=(5, 10))
 
             # users
             self.users_label = Label(self, text="Database Users", font="ARIAL 10 bold").pack()
             self.users_button = Button(self, text="Manage Users", command=self.users, width=40).pack(
-                pady=(5, 20))
+                pady=(5, 10))
+
+            # reports
+            self.report = Label(self, text="Reports", font="ARIAL 10 bold").pack()
+            self.report_button = Button(self, text="Produce database reports", command=report, width=40).pack(
+                pady=(5, 10))
 
     def customer(self):
         open_customer_manager = CustomerManager(self.access, self.user)
