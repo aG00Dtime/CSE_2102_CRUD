@@ -7,9 +7,9 @@ from ui.customer_manager import CustomerManager
 from ui.employee_manager import EmployeeManager
 from ui.inventory_manager import InventoryManager
 from ui.order_manager import OrderManager
+from ui.plan_manager import PlanManager
 from ui.supplier_manager import SupplierManager
 from ui.user_manager import UserManager
-from ui.plan_manager import PlanManager
 
 root = os.path.abspath(os.curdir)
 
@@ -17,14 +17,16 @@ root = os.path.abspath(os.curdir)
 class MainMenu(Tk):
     def __init__(self, access_level, username):
         super(MainMenu, self, ).__init__()
+
         # pass access level
         self.access = access_level
+
         # pass user
         self.user = username
 
         self.title("SMJ Database Manager")
         self.resizable(False, False)
-        self.geometry(window_pos(400, 590))
+        self.geometry(window_pos(500, 600))
 
         self.window_title = Label(self, text="SMJ Manager", font="ARIAL 16 bold").pack(pady=20)
 

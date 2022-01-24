@@ -131,7 +131,7 @@ class CustomerManager(Tk):
             self.tree.column('4', width=80)
 
             for i in range(8):
-                self.tree.column(str(i), anchor=E)
+                self.tree.column(str(i), anchor=W)
 
             for i in range(5, 8):
                 self.tree.column(str(i), width=240)
@@ -147,7 +147,7 @@ class CustomerManager(Tk):
             self.tree.column('8', width=100)
 
             for i in range(9):
-                self.tree.column(str(i), anchor=E)
+                self.tree.column(str(i), anchor=W)
 
         # TAB 2 #######################################################################################################
         # width of entry boxes
@@ -334,8 +334,6 @@ class CustomerManager(Tk):
         tele = record[3]
         email = record[4]
         address = record[5]
-        # -1 to set the right id
-        plan_id = int(record[6]) - 1
 
         # insert
         self.first_name_entry_tab_3.insert(0, first_name)
@@ -343,7 +341,7 @@ class CustomerManager(Tk):
         self.phone_entry_tab_3.insert(0, tele)
         self.email_entry_tab_3.insert(0, email)
         self.address1_entry_tab_3.insert(0, address)
-        self.customer_plan_tab_3.current(plan_id)
+        self.customer_plan_tab_3.set("SELECT PLAN")
 
     def update_record(self):
         # customer id
@@ -362,7 +360,7 @@ class CustomerManager(Tk):
         # check plan
         plan = self.customer_plan_tab_3.get()
 
-        if not plan:
+        if plan == "SELECT PLAN":
             error_list.append("Plan must be selected")
 
         # grab email

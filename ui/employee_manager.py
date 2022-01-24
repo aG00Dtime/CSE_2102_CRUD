@@ -91,9 +91,10 @@ class EmployeeManager(Tk):
 
         # column headings
         if 'admin' not in access_level:
-            self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8')
-        else:
             self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8', '9')
+
+        else:
+            self.tree['columns'] = ("1", "2", "3", "4", '5', '6', '7', '8', '9', '10')
 
         self.tree.heading("1", text="ID")
 
@@ -111,8 +112,10 @@ class EmployeeManager(Tk):
 
         self.tree.heading("8", text="Designation")
 
+        self.tree.heading("9", text="Hire Date")
+
         if "admin" in access_level:
-            self.tree.heading("9", text="Modified By")
+            self.tree.heading("10", text="Modified By")
 
         # align column data
         if "admin" not in access_level:
@@ -122,25 +125,33 @@ class EmployeeManager(Tk):
             self.tree.column('3', width=80)
             self.tree.column('4', width=70)
 
-            for i in range(8):
-                self.tree.column(str(i), anchor=E)
+            for i in range(10):
+                self.tree.column(str(i), anchor=W)
 
-            for i in range(5, 8):
-                self.tree.column(str(i), width=180)
-        else:
-            # column width
-            self.tree.column('1', width=30)
+            self.tree.column('1', width=40)
             self.tree.column('2', width=80)
             self.tree.column('3', width=80)
             self.tree.column('4', width=80)
-            self.tree.column('5', width=200)
-            self.tree.column('6', width=200)
-            self.tree.column('7', width=110)
+            self.tree.column('5', width=150)
+            self.tree.column('6', width=150)
+            self.tree.column('7', width=150)
+            self.tree.column('8', width=150)
+            self.tree.column('9', width=100)
+        else:
+            # column width
+            self.tree.column('1', width=40)
+            self.tree.column('2', width=80)
+            self.tree.column('3', width=80)
+            self.tree.column('4', width=80)
+            self.tree.column('5', width=150)
+            self.tree.column('6', width=150)
+            self.tree.column('7', width=100)
             self.tree.column('8', width=100)
             self.tree.column('9', width=100)
+            self.tree.column('10', width=100)
 
-            for i in range(10):
-                self.tree.column(str(i), anchor=E)
+            for i in range(11):
+                self.tree.column(str(i), anchor=W)
 
         # TAB 2 #######################################################################################################
         # width of entry boxes
@@ -183,9 +194,8 @@ class EmployeeManager(Tk):
 
         self.designation_entry_tab_2_combobox['values'] = [
 
-            "Office Manager",
-            "Executive Assistant",
-            "Senior Executive Assistant",
+            "Manager",
+            "Assistant",
             "Operations Manager",
             "Service Administrator",
             "Business Manager",
@@ -266,7 +276,7 @@ class EmployeeManager(Tk):
 
             "Office Manager",
             "Executive Assistant",
-            "Senior Executive Assistant",
+            "Senior Assistant",
             "Operations Manager",
             "Service Administrator",
             "Business Manager",
@@ -521,13 +531,13 @@ class EmployeeManager(Tk):
                 self.tree.insert("", END,
                                  values=(
                                      column[0], column[1], column[2], column[3], column[4], column[5], column[6],
-                                     column[7]))
+                                     column[7], column[8]))
         else:
             for column in rows:
                 self.tree.insert("", END,
                                  values=(
                                      column[0], column[1], column[2], column[3], column[4], column[5], column[6],
-                                     column[7], column[8]))
+                                     column[7], column[8], column[9]))
 
         db.close()
 

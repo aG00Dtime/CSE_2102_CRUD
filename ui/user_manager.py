@@ -83,7 +83,7 @@ class UserManager(Tk):
 
         # center tree data
         for i in range(6):
-            self.tree.column(str(i), anchor=CENTER)
+            self.tree.column(str(i), anchor=W)
 
         self.tree.grid(row=3, column=0, columnspan=4, padx=(10, 0))
 
