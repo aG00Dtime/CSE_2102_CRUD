@@ -68,7 +68,30 @@ class PlanManager(Tk):
         for i in range(2, 7):
             self.tree.column(str(i), width=170, anchor=W)
 
-    # TAB 2 #######################################################################################################
+        # TAB 2 #######################################################################################################
+
+        self.plan_name_label = Label(self.tab2, text="Plan Name").grid(row=0, column=0, padx=(200, 5), pady=(30, 5))
+        self.plan_name_entry_tab_2 = Entry(self.tab2, width=40)
+        self.plan_name_entry_tab_2.grid(row=0, column=1, pady=(30, 5))
+
+        self.plan_cost_label = Label(self.tab2, text="Price").grid(row=1, column=0, padx=(200, 5), pady=(5, 5))
+        self.plan_cost_label_entry_tab_2 = Entry(self.tab2, width=40)
+        self.plan_cost_label_entry_tab_2.grid(row=1, column=1, pady=(5, 5))
+
+        self.plan_burst_speed_label = Label(self.tab2, text="Burst Speed").grid(row=2, column=0, padx=(200, 5),
+                                                                                pady=(5, 5))
+        self.plan_burst_speed_entry_tab_2 = Entry(self.tab2, width=40)
+        self.plan_burst_speed_entry_tab_2.grid(row=2, column=1, pady=(5, 5))
+
+        self.plan_upload_speed_label = Label(self.tab2, text="Upload Speed").grid(row=3, column=0, padx=(200, 5),
+                                                                                  pady=(5, 5))
+        self.plan_upload_speed_entry_tab_2 = Entry(self.tab2, width=40)
+        self.plan_upload_speed_entry_tab_2.grid(row=3, column=1, pady=(5, 5))
+
+        self.plan_download_speed_label = Label(self.tab2, text="Download Speed").grid(row=4, column=0, padx=(200, 5),
+                                                                                  pady=(5, 5))
+        self.plan_download_speed_entry_tab_2 = Entry(self.tab2, width=40)
+        self.plan_download_speed_entry_tab_2.grid(row=4, column=1, pady=(5, 5))
 
     def get_plans(self):
 

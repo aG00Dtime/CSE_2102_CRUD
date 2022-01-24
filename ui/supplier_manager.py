@@ -110,6 +110,7 @@ class SupplierManager(Tk):
         self.submit_button_tab_2.grid(row=4, column=1, pady=20)
 
         # tab 3 ##################################################################################
+
         self.supplier_id_label = Label(self.tab3, text="Supplier ID").grid(row=0, column=0, pady=(50, 5),
                                                                            padx=(240, 20))
         self.supplier_id_entry_tab_3 = Entry(self.tab3, width=self.entry_box_width)
@@ -143,49 +144,6 @@ class SupplierManager(Tk):
         self.submit_button_tab_3 = Button(self.tab3, text="Submit", width=self.entry_box_width,
                                           command=self.update_supplier)
         self.submit_button_tab_3.grid(row=6, column=1, pady=20)
-
-        # # tab 4 ####################################################################################
-        #
-        # self.supplier_id_label = Label(self.tab4, text="Supplier ID").grid(row=0, column=0, pady=(50, 5),
-        #                                                                    padx=(240, 20))
-        # self.supplier_id_entry_tab_4 = Entry(self.tab4, width=self.entry_box_width)
-        # self.supplier_id_entry_tab_4.grid(row=0, column=1, pady=(50, 5))
-        # self.search_supplier_button_tab_4 = Button(self.tab4, text="Remove", command=self.delete_supplier)
-        # self.search_supplier_button_tab_4.grid(row=1, column=1)
-
-    # # delete record
-    # def delete_supplier(self):
-    #     supplier_id = self.supplier_id_entry_tab_4.get()
-    #
-    #     if not supplier_id:
-    #         messagebox.showerror(title="Error", message="Enter ID", parent=self.tab4)
-    #         return
-    #
-    #     db = db_conn()
-    #     cur = db.cursor()
-    #
-    #     # SQL
-    #     cur.execute(F""" SELECT SUPPLIER_NAME FROM SUPPLIERS WHERE SUPPLIER_ID = '{supplier_id}' """)
-    #
-    #     results = cur.fetchone()
-    #
-    #     if not results:
-    #         messagebox.showerror(title="!", message="Supplier not found", parent=self.tab4)
-    #         return
-    #
-    #     confirm_delete = messagebox.askyesno(message=f"Delete record for {results[0]} ?", parent=self.tab4)
-    #
-    #     if confirm_delete:
-    #         # SQL
-    #         cur.execute(f""" DELETE FROM SUPPLIERS WHERE SUPPLIER_ID = '{supplier_id}' """)
-    #         db.commit()
-    #         messagebox.showinfo(message="Deleted record.", title="Done", parent=self.tab4)
-    #
-    #     else:
-    #         messagebox.showinfo(message="Cancelled", title="Cancelled", parent=self.tab4)
-    #
-    #     # close
-    #     db.close()
 
     # update record
     def update_supplier(self):
