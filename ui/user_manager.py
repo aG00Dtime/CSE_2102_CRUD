@@ -197,20 +197,14 @@ class UserManager(Tk):
         # SQL
         # INSERT INTO USERS TABLE AND ENCRYPT PASSWORDS USING AES ENCRYPTION
         cur.execute(f'''
-        INSERT INTO USERS (USERNAME,PASSWORD,ACCESS_LEVEL)
+        INSERT INTO USERS (USERNAME,PASSWORD,ACCESS_LEVEL,USER_EMPLOYEE_ID)
         VALUES(
         "{username}",
         AES_ENCRYPT("{password}",'{self.key}'),
-        "{access_level}")
-        ''')
-
-        # GET LAST GENERATED USER_ID FROM USERS TABLE
-        cur.execute('''SET @LAST_ID = LAST_INSERT_ID()''')
-
-        # INSERT USER_ID AND EMPLOYEE_ID INTO EMPLOYEE_LOGINS TABLE
-        cur.execute(f'''
-        INSERT INTO EMPLOYEE_LOGINS (LOGIN_USER_ID,LOGIN_EMPLOYEE_ID)
-        VALUES (@LAST_ID,"{employee_id}")
+        "{access_level}",
+        "{employee_id}"
+        
+        )
         ''')
 
         db.commit()
@@ -246,6 +240,7 @@ class UserManager(Tk):
             return
 
         cur.execute(F""" DELETE FROM USERS WHERE USER_ID = '{user_id}' """)
+
         db.commit()
         db.close()
         messagebox.showinfo(title="Done", message="User deleted", parent=self.tab4)
@@ -264,11 +259,11 @@ class UserManager(Tk):
 
         sql = f'''
         
-        SELECT USER_ID,USERNAME,ACCESS_LEVEL
-        FROM EMPLOYEE_LOGINS
-        JOIN USERS on LOGIN_USER_ID=USER_ID
-        JOIN EMPLOYEES on LOGIN_EMPLOYEE_ID = EMPLOYEE_ID
-        WHERE LOGIN_ID = '{user_id}'
+        SELECT USERNAME,ACCESS_LEVEL
+        
+        FROM user_details
+        
+        WHERE USER_ID = '{user_id}'
         
         '''
         # SQL QUERY
@@ -283,11 +278,11 @@ class UserManager(Tk):
 
         if not data:
             messagebox.showerror(message="No results", title="Error", parent=self.tab3)
+            db.close()
             return
 
-        self.user_user_id_temp = data[0]
-        username = data[1]
-        access_level = data[2]
+        username = data[0]
+        access_level = data[1]
 
         # insert user details
         self.user_access_level_tab_3.set(f'''{access_level.upper()}''')
@@ -300,13 +295,12 @@ class UserManager(Tk):
 
         """UPDATE USER INFO"""
 
-        login_id = self.search_user_id_entry_tab_3.get()
-        user_id = self.user_user_id_temp
+        user_id = self.search_user_id_entry_tab_3.get()
         username = self.user_username_tab_3_entry.get()
         password = self.user_password_tab_3_entry.get()
         access_level = self.user_access_level_tab_3.get().lower()
 
-        if not username or not password or not login_id or not access_level:
+        if not username or not password or not user_id or not access_level:
             messagebox.showerror(title="Error", message="Ensure All Fields Are Correct", parent=self.tab3)
             return
 
@@ -341,7 +335,7 @@ class UserManager(Tk):
         cur = db.cursor()
 
         # SQL
-        cur.execute(''' SELECT * FROM employee_login ''')
+        cur.execute(''' SELECT  * from user_details ''')
 
         # fetch data
         data = cur.fetchall()
